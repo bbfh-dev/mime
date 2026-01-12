@@ -32,6 +32,7 @@ func (project *Project) Build() error {
 	)
 
 	project.do(project.checkBuildDir)
+	project.do(project.clearBuildDir)
 
 	if project.task_err != nil {
 		return project.task_err
@@ -64,8 +65,24 @@ func (project *Project) checkBuildDir() error {
 		return errors.NewError(
 			errors.ERR_VALID,
 			dir,
-			"build output is a file. Must not exist or be a directory",
+			"build output is a file",
 		)
+	}
+
+	return nil
+}
+
+func (project *Project) clearBuildDir() error {
+	cli.LogInfo(false, "Clearing build directory")
+
+	if err := os.RemoveAll(cli.Main.Options.Output); err != nil {
+		return errors.NewError(errors.ERR_IO, cli.Main.Options.Output, err.Error())
+	}
+
+	path := filepath.Join(cli.Main.Options.Output, "data_pack")
+	err := os.MkdirAll(path, os.ModePerm)
+	if err != nil {
+		return errors.NewError(errors.ERR_IO, path, err.Error())
 	}
 
 	return nil

@@ -98,11 +98,13 @@ func (project *Project) clearBuildDir() error {
 
 func (project *Project) detectPackIcon() error {
 	_, err := os.Stat("pack.png")
-	if !os.IsNotExist(err) {
-		cli.LogInfo(false, "Found 'pack.png'")
-		project.has_icon = true
+	if os.IsNotExist(err) {
+		cli.LogWarn(false, "No pack icon found")
+		return nil
 	}
 
+	cli.LogInfo(false, "Found 'pack.png'")
+	project.has_icon = true
 	return nil
 }
 

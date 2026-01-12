@@ -84,14 +84,13 @@ func (project *Project) checkBuildDir() error {
 func (project *Project) clearBuildDir() error {
 	cli.LogInfo(false, "Clearing build directory")
 
-	if err := os.RemoveAll(cli.Main.Options.Output); err != nil {
-		return errors.NewError(errors.ERR_IO, cli.Main.Options.Output, err.Error())
+	if err := os.RemoveAll(project.BuildDir); err != nil {
+		return errors.NewError(errors.ERR_IO, project.BuildDir, err.Error())
 	}
 
-	path := filepath.Join(cli.Main.Options.Output, "data_pack")
-	err := os.MkdirAll(path, os.ModePerm)
+	err := os.MkdirAll(project.BuildDir, os.ModePerm)
 	if err != nil {
-		return errors.NewError(errors.ERR_IO, path, err.Error())
+		return errors.NewError(errors.ERR_IO, project.BuildDir, err.Error())
 	}
 
 	return nil

@@ -13,7 +13,7 @@ type PackMcmeta struct {
 	Versions VersionRange
 }
 
-func NewPackMeta(body []byte) *PackMcmeta {
+func NewPackMcmeta(body []byte) *PackMcmeta {
 	return &PackMcmeta{
 		File:     NewJsonFile(body),
 		Versions: VersionRange{},

@@ -7,13 +7,15 @@ import (
 )
 
 func LogDebug(is_nested bool, format string, args ...any) {
-	// Uses a different format
-	fmt.Println(
-		libescapes.TextColorWhite +
-			arrow(is_nested) +
-			fmt.Sprintf(format, args...) +
-			libescapes.ColorReset,
-	)
+	if Main.Options.Debug {
+		// Uses a different format
+		fmt.Println(
+			libescapes.TextColorWhite +
+				arrow(is_nested) +
+				fmt.Sprintf(format, args...) +
+				libescapes.ColorReset,
+		)
+	}
 }
 
 func LogInfo(is_nested bool, format string, args ...any) {

@@ -17,6 +17,7 @@ type Project struct {
 	BuildDir      string
 	Meta          *minecraft.PackMcmeta
 	has_icon      bool
+	has_data      bool
 	has_resources bool
 	task_err      error
 }
@@ -26,6 +27,7 @@ func New(mcmeta *minecraft.PackMcmeta) *Project {
 		BuildDir:      cli.Main.Options.Output,
 		Meta:          mcmeta,
 		has_icon:      false,
+		has_data:      false,
 		has_resources: false,
 		task_err:      nil,
 	}
@@ -45,6 +47,14 @@ func (project *Project) Build() error {
 	project.do(project.detectPackIcon)
 	project.do(project.createResourcePack)
 	project.do(project.createDataPack)
+
+	cli.LogInfo(false, "Generating pack.mcmeta")
+	if project.has_data {
+		project.do(project.makePackMcmeta("data_pack", minecraft.DataPackFormats))
+	}
+	if project.has_resources {
+		project.do(project.makePackMcmeta("resource_pack", minecraft.ResourcePackFormats))
+	}
 
 	if project.task_err != nil {
 		return project.task_err
@@ -152,6 +162,7 @@ func (project *Project) createDataPack() error {
 	}
 
 	cli.LogInfo(false, "Creating a data pack")
+	project.has_data = true
 
 	err = os.MkdirAll(filepath.Join(project.BuildDir, "data_pack"), os.ModePerm)
 	if err != nil {
@@ -248,10 +259,40 @@ func (project *Project) createDataPack() error {
 
 	// TODO: this
 
+	if project.has_icon {
+		path := filepath.Join(project.BuildDir, "data_pack", "pack.png")
+		err = cp.Copy("pack.png", path)
+		if err != nil {
+			return errors.NewError(errors.ERR_IO, path, err.Error())
+		}
+	}
+
 	return nil
 }
 
 func (project *Project) parseFunction(path string) error {
 	// TODO: this
 	return nil
+}
+
+func (project *Project) makePackMcmeta(
+	name string,
+	formats map[string]minecraft.Version,
+) func() error {
+	return func() error {
+		cli.LogInfo(true, "Exporting into the %s", name)
+		mcmeta := minecraft.NewPackMcmeta(project.Meta.File.Body)
+		mcmeta.FillVersion(formats)
+		if err := mcmeta.SaveVersion(); err != nil {
+			cli.LogWarn(true, "%s", err.Error())
+		}
+
+		path := filepath.Join(project.BuildDir, name, "pack.mcmeta")
+		err := os.WriteFile(path, mcmeta.File.Formatted(), os.ModePerm)
+		if err != nil {
+			return errors.NewError(errors.ERR_IO, path, err.Error())
+		}
+
+		return nil
+	}
 }

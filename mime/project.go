@@ -2,6 +2,7 @@ package mime
 
 import (
 	"archive/zip"
+	"bufio"
 	"fmt"
 	"io/fs"
 	"os"
@@ -11,6 +12,7 @@ import (
 
 	"github.com/bbfh-dev/mime/cli"
 	"github.com/bbfh-dev/mime/mime/errors"
+	"github.com/bbfh-dev/mime/mime/mcfunction"
 	"github.com/bbfh-dev/mime/mime/minecraft"
 	cp "github.com/otiai10/copy"
 	"golang.org/x/sync/errgroup"
@@ -277,7 +279,19 @@ func (project *Project) createDataPack() error {
 
 	cli.LogInfo(true, "Writing mcfunction files to disk")
 
-	// TODO: this
+	for path, lines := range mcfunction.Registry {
+		path = filepath.Join(project.BuildDir, "data_pack", path)
+
+		err := os.MkdirAll(filepath.Dir(path), os.ModePerm)
+		if err != nil {
+			return errors.NewError(errors.ERR_IO, path, err.Error())
+		}
+
+		err = os.WriteFile(path, []byte(strings.Join(lines, "\n")), os.ModePerm)
+		if err != nil {
+			return errors.NewError(errors.ERR_IO, path, err.Error())
+		}
+	}
 
 	if project.has_icon {
 		path := filepath.Join(project.BuildDir, "data_pack", "pack.png")
@@ -291,8 +305,15 @@ func (project *Project) createDataPack() error {
 }
 
 func (project *Project) parseFunction(path string) error {
-	// TODO: this
-	return nil
+	file, err := os.OpenFile(path, os.O_RDONLY, os.ModePerm)
+	if err != nil {
+		return errors.NewError(errors.ERR_IO, path, err.Error())
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	function := mcfunction.New(path, scanner, 0)
+	return function.Parse()
 }
 
 func (project *Project) makePackMcmeta(

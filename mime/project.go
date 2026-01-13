@@ -1,9 +1,12 @@
 package mime
 
 import (
+	"archive/zip"
+	"fmt"
 	"io/fs"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/bbfh-dev/mime/cli"
@@ -59,8 +62,25 @@ func (project *Project) Build() error {
 	if project.task_err != nil {
 		return project.task_err
 	}
-
 	cli.LogDone(false, "Finished building in %s", time.Since(start))
+
+	if cli.Main.Options.Zip {
+		cli.LogInfo(false, "Creating *.zip files")
+		start = time.Now()
+
+		if project.has_data {
+			project.do(project.makeZip("data_pack"))
+		}
+		if project.has_resources {
+			project.do(project.makeZip("resource_pack"))
+		}
+
+		if project.task_err != nil {
+			return project.task_err
+		}
+		cli.LogDone(false, "Finished in %s", time.Since(start))
+	}
+
 	return nil
 }
 
@@ -289,6 +309,46 @@ func (project *Project) makePackMcmeta(
 
 		path := filepath.Join(project.BuildDir, name, "pack.mcmeta")
 		err := os.WriteFile(path, mcmeta.File.Formatted(), os.ModePerm)
+		if err != nil {
+			return errors.NewError(errors.ERR_IO, path, err.Error())
+		}
+
+		return nil
+	}
+}
+
+func (project *Project) makeZip(folder string) func() error {
+	return func() error {
+		if folder != "data_pack" && folder != "resource_pack" {
+			panic("Folder must only be data_pack or resource_pack")
+		}
+		label := strings.ToUpper(string(folder[0])) + "P"
+		path := filepath.Join(
+			project.BuildDir,
+			fmt.Sprintf(
+				"%s_%s_v%s.zip",
+				project.Meta.File.Get("meta.name").String(),
+				label,
+				project.Meta.PrintableVersion(),
+			),
+		)
+
+		file, err := os.Create(path)
+		if err != nil {
+			return errors.NewError(errors.ERR_IO, path, err.Error())
+		}
+		defer file.Close()
+
+		writer := zip.NewWriter(file)
+		defer writer.Close()
+
+		path = filepath.Join(project.BuildDir, folder)
+		root, err := os.OpenRoot(path)
+		if err != nil {
+			return errors.NewError(errors.ERR_IO, path, err.Error())
+		}
+
+		err = writer.AddFS(root.FS())
 		if err != nil {
 			return errors.NewError(errors.ERR_IO, path, err.Error())
 		}

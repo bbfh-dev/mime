@@ -63,3 +63,24 @@ func (mcmeta *PackMcmeta) SaveVersion() error {
 
 	return nil
 }
+
+func (mcmeta *PackMcmeta) Name() gjson.Result {
+	return mcmeta.File.Get("meta.name")
+}
+
+func (mcmeta *PackMcmeta) Minecraft() gjson.Result {
+	return mcmeta.File.Get("meta.minecraft")
+}
+
+func (mcmeta *PackMcmeta) Version() gjson.Result {
+	return mcmeta.File.Get("meta.version")
+}
+
+func (mcmeta *PackMcmeta) PrintableVersion() string {
+	version := mcmeta.File.Get("meta.version")
+	if !version.Exists() {
+		return "UNKNOWN"
+	}
+
+	return strings.ReplaceAll(version.String(), ".", "-")
+}

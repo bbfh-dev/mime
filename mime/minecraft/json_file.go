@@ -64,3 +64,7 @@ var formattingOptions = &pretty.Options{
 func (file *JsonFile) Formatted() []byte {
 	return pretty.PrettyOptions(file.Body, formattingOptions)
 }
+
+func (file *JsonFile) Clone() *JsonFile {
+	return NewJsonFile(file.Body)
+}

@@ -83,6 +83,7 @@ Generates the following data pack meta
 
 ## 1.3 Add-ons
 
+Data-driven
 Generate data & resource pack files based on templates.
 
 ### 1.3.1 Defining an add-on
@@ -109,13 +110,13 @@ JSON file keys also have a special syntax `%-><JSON key>` that **expands** the v
 
 ### 1.3.3 Definitions file
 
-The JSON schema can be found here: `./mime/schemas/definitions.json`.
+The JSON schema can be found here: `./definitions.schema.json`.
 
 Example:
 
 ```jsonc
 {
-    "$schema": "(...)/definitions.json",
+    "$schema": "(...)/definitions.schema.json",
     "iterators": {
         "material": [
             "oak",
@@ -163,7 +164,7 @@ Example:
             // You can use iterators like this
             // an iterator is just a for-each loop
             // that exposes %[<iterator_name>] for the current `array[i]` value
-            // and %[<iterator_name>:index] for the current `i` value
+            // and %[i] for the current `i` value
             "iterate": "material",
             "return": {
                 "category": "furniture",
@@ -179,7 +180,7 @@ Example:
                     }
                 ],
                 "material": {
-                    "index": "%[material:index]",
+                    "index": "%[i]",
                     "name": "%[material]"
                 },
                 "tags": []
@@ -188,3 +189,5 @@ Example:
     ]
 }
 ```
+
+Make it smart by having it be just files and use %[material] etc that will make it create iterators.

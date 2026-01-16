@@ -1,0 +1,19 @@
+{
+	"$schema": "_schema.json",
+	"category": "furniture",
+	"base": "oak_slab",
+	"sound": "wooden",
+	"facing": "player",
+	"recipe": [
+		{
+			"group": "block",
+			"id": "%[material.1]",
+			"count": 8
+		}
+	],
+	"material": {
+		"name": "%[material]",
+		"index": "%[i]"
+	},
+	"tags": []
+}

@@ -50,6 +50,8 @@ func (project *Project) Build() error {
 		project.do(project.makePackMcmeta("resource_pack", minecraft.ResourcePackFormats))
 	}
 
+	project.do(project.runAddons)
+
 	if project.task_err != nil {
 		return project.task_err
 	}

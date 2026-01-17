@@ -134,6 +134,9 @@ func SubstituteItem(body string, path string, env Env) (string, error) {
 		if err != nil {
 			return body, err
 		}
+		if num, err := strconv.Atoi(str); err == nil {
+			return sjson.Set(body, path, num)
+		}
 		body, err = sjson.Set(body, path, str)
 		if err != nil {
 			return body, err

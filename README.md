@@ -2,10 +2,14 @@
 
 Minecraft data & resource pack processor designed to be a useful tool for vanilla development rather than a new scripting language or ecosystem.
 
+> [!CAUTION]
+> This project is still in **alpha**. Expect bugs & breaking changes.
+
 ## Table of Contents
 
 <!-- vim-markdown-toc GFM -->
 
+* [0 Roadmap before v1.x](#0-roadmap-before-v1x)
 * [1 Features](#1-features)
     * [1.1 Nested functions](#11-nested-functions)
     * [1.2 Mcmeta generation](#12-mcmeta-generation)
@@ -15,6 +19,14 @@ Minecraft data & resource pack processor designed to be a useful tool for vanill
         * [1.3.3 Definitions file](#133-definitions-file)
 
 <!-- vim-markdown-toc -->
+
+# 0 Roadmap before v1.x
+
+- [ ] Add weld support
+- [ ] Refactor the entire addon system because the code sucks
+- [ ] Add examples
+- [ ] Add tests for all examples
+- [ ] Add tests for the handling of invalid state
 
 # 1 Features
 
@@ -83,8 +95,10 @@ Generates the following data pack meta
 
 ## 1.3 Add-ons
 
-Data-driven
-Generate data & resource pack files based on templates.
+> [!CAUTION]
+> Add-ons are still a **prototype**. It is yet to become a fully implemented feature!
+
+Data-driven generattion of data & resource pack files.
 
 ### 1.3.1 Defining an add-on
 
@@ -189,5 +203,3 @@ Example:
     ]
 }
 ```
-
-Make it smart by having it be just files and use %[material] etc that will make it create iterators.

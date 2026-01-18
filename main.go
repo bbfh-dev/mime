@@ -11,11 +11,11 @@ import (
 	"github.com/bbfh-dev/mime/mime/minecraft"
 )
 
-const VERSION = "0.1.0-alpha.1"
+var Version = "0.1.0-alpha.1"
 
 var MainProgram = libparsex.Program{
 	Name:        "mime",
-	Version:     VERSION,
+	Version:     Version,
 	Description: "Minecraft data & resource pack processor designed to be a useful tool for vanilla development rather than a new scripting language or ecosystem.",
 	Options:     &cli.Main.Options,
 	Args:        &cli.Main.Args,

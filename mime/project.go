@@ -8,12 +8,14 @@ import (
 )
 
 type Project struct {
-	BuildDir      string
-	Meta          *minecraft.PackMcmeta
-	has_icon      bool
-	has_data      bool
-	has_resources bool
-	task_err      error
+	BuildDir           string
+	Meta               *minecraft.PackMcmeta
+	has_icon           bool
+	has_data           bool
+	has_resources      bool
+	task_err           error
+	data_zip_name      string
+	resources_zip_name string
 }
 
 func New(mcmeta *minecraft.PackMcmeta) *Project {
@@ -74,7 +76,9 @@ func (project *Project) Build() error {
 		cli.LogDone(false, "Finished in %s", time.Since(start))
 	}
 
-	return nil
+	project.do(project.runWeld)
+
+	return project.task_err
 }
 
 func (project *Project) do(task func() error) {

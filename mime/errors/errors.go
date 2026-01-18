@@ -12,6 +12,7 @@ const (
 	ERR_VALID    = "Validation Error"
 	ERR_INTERNAL = "Internal Error"
 	ERR_ITER     = "Iterator Error"
+	ERR_EXEC     = "Execution Error"
 )
 
 type MimeError struct {

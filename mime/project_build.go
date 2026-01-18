@@ -100,6 +100,12 @@ func (project *Project) makeZip(folder string) func() error {
 				project.Meta.PrintableVersion(),
 			),
 		)
+		switch folder {
+		case "data_pack":
+			project.data_zip_name = path
+		case "resource_pack":
+			project.resources_zip_name = path
+		}
 
 		file, err := os.Create(path)
 		if err != nil {

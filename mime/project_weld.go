@@ -15,6 +15,11 @@ import (
 )
 
 func (project *Project) runWeld() error {
+	if !cli.Main.Options.Zip {
+		cli.LogWarn(false, "Libraries will not be merged because --zip is not provided")
+		return nil
+	}
+
 	_, err := os.Stat("libs")
 	if os.IsNotExist(err) {
 		cli.LogDebug(false, "No libraries found")

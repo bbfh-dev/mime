@@ -25,16 +25,20 @@ func (project *Project) runWeld() error {
 	start := time.Now()
 	var errs errgroup.Group
 
-	if _, err = os.Stat(filepath.Join("libs", "data_packs")); err == nil {
-		errs.Go(func() error {
-			return project.weldPack("data_packs", project.data_zip_name)
-		})
+	if !project.isDataCached() {
+		if _, err = os.Stat(filepath.Join("libs", "data_packs")); err == nil {
+			errs.Go(func() error {
+				return project.weldPack("data_packs", project.data_zip_name)
+			})
+		}
 	}
 
-	if _, err = os.Stat(filepath.Join("libs", "resource_packs")); err == nil {
-		errs.Go(func() error {
-			return project.weldPack("resource_packs", project.resources_zip_name)
-		})
+	if !project.isResourcesCached() {
+		if _, err = os.Stat(filepath.Join("libs", "resource_packs")); err == nil {
+			errs.Go(func() error {
+				return project.weldPack("resource_packs", project.resources_zip_name)
+			})
+		}
 	}
 
 	err = errs.Wait()
@@ -42,7 +46,9 @@ func (project *Project) runWeld() error {
 		return err
 	}
 
-	cli.LogDone(false, "Finished merging in %s", time.Since(start))
+	if !project.isResourcesCached() || !project.isDataCached() {
+		cli.LogDone(false, "Finished merging in %s", time.Since(start))
+	}
 	return nil
 }
 

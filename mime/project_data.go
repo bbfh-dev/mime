@@ -15,6 +15,11 @@ import (
 )
 
 func (project *Project) createDataPack() error {
+	if project.isDataCached() {
+		cli.LogDebug(true, "The data pack is cached")
+		return nil
+	}
+
 	_, err := os.Stat("data")
 	if os.IsNotExist(err) {
 		cli.LogDebug(false, "No data pack found")

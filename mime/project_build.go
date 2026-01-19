@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 
 	"github.com/bbfh-dev/mime/cli"
@@ -52,6 +53,10 @@ func (project *Project) clearBuildDir() error {
 }
 
 func (project *Project) detectPackIcon() error {
+	if project.isCached() {
+		return nil
+	}
+
 	_, err := os.Stat("pack.png")
 	if os.IsNotExist(err) {
 		cli.LogWarn(false, "No pack icon found")
@@ -85,26 +90,27 @@ func (project *Project) makePackMcmeta(
 	}
 }
 
-func (project *Project) makeZip(folder string) func() error {
+func (project *Project) getZipName(label string) string {
+	return filepath.Join(
+		project.BuildDir,
+		fmt.Sprintf(
+			"%s_%s_v%s.zip",
+			project.Meta.Name(),
+			label,
+			project.Meta.PrintableVersion(),
+		),
+	)
+}
+
+func (project *Project) makeZip(folder, cache_name string) func() error {
 	return func() error {
 		if folder != "data_pack" && folder != "resource_pack" {
 			panic("Folder must only be data_pack or resource_pack")
 		}
-		label := strings.ToUpper(string(folder[0])) + "P"
-		path := filepath.Join(
-			project.BuildDir,
-			fmt.Sprintf(
-				"%s_%s_v%s.zip",
-				project.Meta.Name(),
-				label,
-				project.Meta.PrintableVersion(),
-			),
-		)
-		switch folder {
-		case "data_pack":
-			project.data_zip_name = path
-		case "resource_pack":
-			project.resources_zip_name = path
+		path := project.getZipName(strings.ToUpper(string(folder[0])) + "P")
+
+		if slices.Contains(project.cached, cache_name) {
+			return nil
 		}
 
 		file, err := os.Create(path)

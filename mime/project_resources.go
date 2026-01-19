@@ -10,6 +10,11 @@ import (
 )
 
 func (project *Project) createResourcePack() error {
+	if project.isResourcesCached() {
+		cli.LogDebug(true, "The resource pack is cached")
+		return nil
+	}
+
 	_, err := os.Stat("assets")
 	if os.IsNotExist(err) {
 		cli.LogDebug(false, "No resource pack found")

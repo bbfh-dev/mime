@@ -6,6 +6,7 @@ var Main struct {
 		Zip    bool   `alt:"z" desc:"Export data & resource packs as .zip files"`
 		Force  bool   `alt:"f" desc:"Force building even if the build directory looks off"`
 		Debug  bool   `alt:"d" desc:"Print verbose debug information"`
+		Cache  bool   `alt:"c" desc:"Use caching to prevent unnecessary computation"`
 	}
 	Args struct {
 		WorkDir *string

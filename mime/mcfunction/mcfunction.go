@@ -42,7 +42,7 @@ func (fn *McFunction) Parse() error {
 		_, resource := FilepathToResource(fn.Path)
 		line = strings.ReplaceAll(line, "function ./", "function "+resource+"/")
 
-		if line_indent == 0 {
+		if line_indent == 0 || line == "" {
 			fn.Locals[filename] = append(fn.Locals[filename], line)
 			goto next_iteration
 		}

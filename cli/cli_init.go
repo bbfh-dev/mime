@@ -4,8 +4,8 @@ import (
 	"os"
 	"path/filepath"
 
+	liberrors "github.com/bbfh-dev/lib-errors"
 	libparsex "github.com/bbfh-dev/lib-parsex/v3"
-	"github.com/bbfh-dev/mime/mime/errors"
 	"github.com/bbfh-dev/mime/mime/minecraft"
 )
 
@@ -30,7 +30,7 @@ var InitProgram = libparsex.Program{
 	EntryPoint: func(raw_args []string) error {
 		if Init.Args.WorkDir != nil {
 			if err := os.Chdir(*Init.Args.WorkDir); err != nil {
-				return err
+				return liberrors.NewIO(err, *Init.Args.WorkDir)
 			}
 		}
 
@@ -51,11 +51,7 @@ var InitProgram = libparsex.Program{
 		err = os.WriteFile("pack.mcmeta", mcmeta.File.Formatted(), os.ModePerm)
 		if err != nil {
 			work_dir, _ := os.Getwd()
-			return errors.NewError(
-				errors.ERR_IO,
-				filepath.Join(work_dir, "pack.mcmeta"),
-				err.Error(),
-			)
+			return liberrors.NewIO(err, filepath.Join(work_dir, "pack.mcmeta"))
 		}
 
 		LogDone(

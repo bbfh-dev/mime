@@ -14,8 +14,10 @@ require (
 )
 
 require (
+	github.com/bbfh-dev/lib-errors v1.0.1 // indirect
 	github.com/iancoleman/strcase v0.3.0 // indirect
 	github.com/otiai10/mint v1.6.3 // indirect
 	github.com/tidwall/match v1.2.0 // indirect
+	github.com/tomefile/lib-errors v1.0.1 // indirect
 	golang.org/x/sys v0.40.0 // indirect
 )

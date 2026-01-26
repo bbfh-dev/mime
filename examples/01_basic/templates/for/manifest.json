@@ -1,0 +1,8 @@
+{
+	"type": "inline",
+	"arguments": {
+		"target": "selector",
+		"objective": "word",
+		"range": "range"
+	}
+}

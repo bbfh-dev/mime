@@ -64,3 +64,12 @@ func arrow(is_nested bool) string {
 	}
 	return "==> "
 }
+
+func LogCached(is_nested bool, format string, args ...any) {
+	log(
+		is_nested,
+		"CACHED: ",
+		libescapes.TextColorBrightMagenta,
+		fmt.Sprintf(format, args...),
+	)
+}

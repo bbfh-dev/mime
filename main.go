@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 	"path/filepath"
+	"time"
 
 	liberrors "github.com/bbfh-dev/lib-errors"
 	libparsex "github.com/bbfh-dev/lib-parsex/v3"
@@ -46,8 +47,14 @@ var MainProgram = libparsex.Program{
 			}
 		}
 
+		start := time.Now()
 		project := mime.New(mcmeta)
-		return project.Build()
+		if err := project.Build(); err != nil {
+			return err
+		}
+
+		cli.LogDone(false, "Finished building in %s", time.Since(start))
+		return nil
 	},
 }
 

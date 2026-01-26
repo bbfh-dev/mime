@@ -72,6 +72,27 @@ func (mcmeta *PackMcmeta) Minecraft() gjson.Result {
 	return mcmeta.File.Get("meta.minecraft")
 }
 
+func (mcmeta *PackMcmeta) MinecraftRange() [2]string {
+	versions := mcmeta.Minecraft()
+	if !versions.Exists() {
+		return [2]string{}
+	}
+
+	parts := strings.SplitN(versions.String(), "-", 2)
+	if len(parts) == 1 {
+		return [2]string{parts[0]}
+	}
+	return [2]string(parts)
+}
+
+func (mcmeta *PackMcmeta) MinecraftFormatted() string {
+	versions := mcmeta.MinecraftRange()
+	if versions[1] == "" {
+		return versions[0]
+	}
+	return fmt.Sprintf("[min: %s, max: %s]", versions[0], versions[1])
+}
+
 func (mcmeta *PackMcmeta) Version() gjson.Result {
 	return mcmeta.File.Get("meta.version")
 }

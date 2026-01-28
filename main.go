@@ -8,8 +8,8 @@ import (
 	liberrors "github.com/bbfh-dev/lib-errors"
 	libparsex "github.com/bbfh-dev/lib-parsex/v3"
 	"github.com/bbfh-dev/mime/cli"
-	"github.com/bbfh-dev/mime/mime"
-	"github.com/bbfh-dev/mime/mime/minecraft"
+	"github.com/bbfh-dev/mime/devkit"
+	"github.com/bbfh-dev/mime/devkit/minecraft"
 )
 
 // Use -ldflags="... main.Version=<version here>"
@@ -48,12 +48,12 @@ var MainProgram = libparsex.Program{
 		}
 
 		start := time.Now()
-		project := mime.New(mcmeta)
+		project := devkit.New(mcmeta)
 		if err := project.Build(); err != nil {
 			return err
 		}
 
-		cli.LogDone(false, "Finished building in %s", time.Since(start))
+		cli.LogDone(0, "Finished building in %s", time.Since(start))
 		return nil
 	},
 }

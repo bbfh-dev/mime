@@ -36,7 +36,7 @@ var InitProgram = libparsex.Program{
 
 		mcmeta_body, err := os.ReadFile("pack.mcmeta")
 		if err != nil {
-			LogInfo(false, "Missing existing 'pack.mcmeta', so one will be created instead")
+			LogInfo(0, "Missing existing 'pack.mcmeta', so one will be created instead")
 			mcmeta_body = []byte{}
 		}
 
@@ -55,7 +55,7 @@ var InitProgram = libparsex.Program{
 		}
 
 		LogDone(
-			false,
+			0,
 			"Saved 'pack.mcmeta' for name=%q version=%q minecraft=%q",
 			Init.Options.Name,
 			Init.Options.Version,

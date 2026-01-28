@@ -2,74 +2,83 @@ package cli
 
 import (
 	"fmt"
+	"strings"
 
 	libescapes "github.com/bbfh-dev/lib-ansi-escapes"
 )
 
-func LogDebug(is_nested bool, format string, args ...any) {
+func LogDebug(nesting uint, format string, args ...any) {
 	if Main.Options.Debug {
 		// Uses a different format
 		fmt.Println(
 			libescapes.TextColorWhite +
-				arrow(is_nested) +
+				arrow(nesting) +
 				fmt.Sprintf(format, args...) +
 				libescapes.ColorReset,
 		)
 	}
 }
 
-func LogInfo(is_nested bool, format string, args ...any) {
+func LogInfo(nesting uint, format string, args ...any) {
 	log(
-		is_nested,
+		nesting,
 		"",
 		libescapes.TextColorBrightBlue,
 		fmt.Sprintf(format, args...),
 	)
 }
 
-func LogDone(is_nested bool, format string, args ...any) {
+func LogDone(nesting uint, format string, args ...any) {
 	log(
-		is_nested,
+		nesting,
 		"DONE: ",
 		libescapes.TextColorBrightGreen,
 		fmt.Sprintf(format, args...),
 	)
 }
 
-func LogWarn(is_nested bool, format string, args ...any) {
+func LogWarn(nesting uint, format string, args ...any) {
 	log(
-		is_nested,
+		nesting,
 		"WARN: ",
 		libescapes.TextColorBrightYellow,
 		fmt.Sprintf(format, args...),
 	)
 }
 
-func LogError(is_nested bool, format string, args ...any) {
+func LogError(nesting uint, format string, args ...any) {
 	log(
-		is_nested,
+		nesting,
 		"ERROR: ",
 		libescapes.TextColorBrightRed,
 		fmt.Sprintf(format, args...),
 	)
 }
 
-func log(is_nested bool, prefix, color, body string) {
-	fmt.Println(color + arrow(is_nested) + prefix + libescapes.ColorReset + body)
+func log(nesting uint, prefix, color, body string) {
+	fmt.Println(color + arrow(nesting) + prefix + libescapes.ColorReset + body)
 }
 
-func arrow(is_nested bool) string {
-	if is_nested {
+func arrow(nesting uint) string {
+	switch nesting {
+	case 0:
+		return "==> "
+	case 1:
 		return " -> "
 	}
-	return "==> "
+
+	return strings.Repeat("  ", int(nesting)) + "-> "
 }
 
-func LogCached(is_nested bool, format string, args ...any) {
+func LogCached(nesting uint, format string, args ...any) {
 	log(
-		is_nested,
+		nesting,
 		"CACHED: ",
 		libescapes.TextColorBrightMagenta,
 		fmt.Sprintf(format, args...),
 	)
+}
+
+func ColorWord(word, color string) string {
+	return color + word + libescapes.ColorReset
 }

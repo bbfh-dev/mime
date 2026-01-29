@@ -61,6 +61,19 @@ func (file *JsonFile) Set(path string, value any) {
 	}
 }
 
+func (file *JsonFile) Delete(path string) {
+	var err error
+	file.Body, err = sjson.DeleteBytes(file.Body, path)
+	if err != nil {
+		panic(
+			fmt.Sprintf(
+				"(Assertion fail) Failed deleting inside of the json file: %s",
+				err.Error(),
+			),
+		)
+	}
+}
+
 var formattingOptions = &pretty.Options{
 	Width:    80,
 	Prefix:   "",

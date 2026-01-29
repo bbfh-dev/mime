@@ -94,7 +94,7 @@ func NewGeneratorTemplate(root string, manifest *internal.JsonFile) (*GeneratorT
 			file := internal.NewJsonFile(data)
 			mutex.Lock()
 
-			extracted_iters := internal.ExtractIteratorsFrom(entry.Name())
+			extracted_iters := internal.ExtractVariablesFrom(entry.Name())
 			if len(extracted_iters) == 0 {
 				template.Definitions[entry.Name()] = Definition{
 					File: file,
@@ -195,6 +195,16 @@ func (template *GeneratorTemplate) defineUsingIterators(
 			Type: gjson.Number,
 			Num:  float64(n),
 		}
+
+		file := file.Clone()
+		if err := internal.SubstituteFile(file, env); err != nil {
+			return &liberrors.DetailedError{
+				Label:   liberrors.ERR_FORMAT,
+				Context: liberrors.DirContext{Path: filepath.Join(template.Dir, "templates", name)},
+				Details: err.Error(),
+			}
+		}
+
 		template.Definitions[in] = Definition{
 			File: file,
 			Env:  env,

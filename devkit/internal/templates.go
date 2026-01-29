@@ -89,3 +89,134 @@ func SimpleSubstitute(in string, env Env) (string, error) {
 		}
 	}
 }
+
+func SubstituteFile(file *JsonFile, env Env) error {
+	return SubstituteObject(file, env, "@this")
+}
+
+func SubstituteObject(file *JsonFile, env Env, path string) error {
+	for _, key := range file.Get(path + ".@keys").Array() {
+		value := file.Get(join(path, key.String()))
+
+		// Substitute the key
+		new_key, err := SimpleSubstitute(key.String(), env)
+		if err != nil {
+			return err
+		}
+		if new_key != key.String() {
+			file.Delete(join(path, key.String()))
+			file.Set(join(path, new_key), value.Value())
+		}
+
+		switch value.Type {
+
+		case gjson.Null, gjson.False, gjson.True, gjson.Number:
+			// ignore
+
+		case gjson.String:
+			err := SubstituteString(file, env, join(path, new_key), value)
+			if err != nil {
+				return err
+			}
+
+		default:
+			if value.IsArray() {
+				err := SubstituteArray(file, env, join(path, new_key))
+				if err != nil {
+					return err
+				}
+				continue
+			}
+
+			err := SubstituteObject(file, env, join(path, new_key))
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
+}
+
+func SubstituteArray(file *JsonFile, env Env, path string) error {
+	for i, value := range file.Get(path).Array() {
+		switch value.Type {
+		case gjson.Null, gjson.False, gjson.True, gjson.Number:
+			// ignore
+
+		case gjson.String:
+			err := SubstituteString(file, env, join(path, fmt.Sprint(i)), value)
+			if err != nil {
+				return err
+			}
+
+		default:
+			if value.IsArray() {
+				err := SubstituteArray(file, env, join(path, fmt.Sprint(i)))
+				if err != nil {
+					return err
+				}
+				continue
+			}
+
+			err := SubstituteObject(file, env, join(path, fmt.Sprint(i)))
+			if err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+
+func SubstituteString(file *JsonFile, env Env, path string, value gjson.Result) error {
+	variables := ExtractVariablesFrom(value.String())
+
+	if !isSmartValue(value.String(), variables) {
+		value, err := SimpleSubstitute(value.String(), env)
+		if err != nil {
+			return err
+		}
+		file.Set(path, value)
+		return nil
+	}
+
+	parts := strings.Split(variables[0], ".")
+	iterator, ok := env.Iterators[parts[0]]
+	if ok {
+		var err error
+		num := 0
+		if len(parts) > 1 {
+			num, err = strconv.Atoi(parts[1])
+			if err != nil {
+				return err
+			}
+		}
+		if num >= len(iterator) {
+			return fmt.Errorf("index %d out of range of %#v", num, iterator)
+		}
+		file.Set(path, iterator[num])
+		return nil
+	}
+
+	value, ok = env.Variables[variables[0]]
+	if !ok {
+		return fmt.Errorf("undefined variable %q", variables[0])
+	}
+	file.Set(path, value)
+
+	return nil
+}
+
+func join(path, item string) string {
+	if path == "@this" {
+		return item
+	}
+	return path + "." + item
+}
+
+func isSmartValue(value string, variables []string) bool {
+	if len(variables) != 1 {
+		return false
+	}
+	return len(value) == len("%[")+len(variables[0])+len("]")
+}

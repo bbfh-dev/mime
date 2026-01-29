@@ -16,8 +16,15 @@ func (project *Project) GenerateFromTemplates() error {
 
 	cli.LogInfo(0, "Generating code from %d template(s)", len(project.generatorTemplates))
 
-	// for name, template := range project.generatorTemplates {
-	// }
+	for name, template := range project.generatorTemplates {
+		cli.LogDebug(1, "Generating from %q", name)
+
+		for name := range template.Definitions {
+			cli.LogDebug(2, "Create %q", name)
+		}
+
+		cli.LogDone(1, "Finished generating %q for %d definitions", name, len(template.Definitions))
+	}
 
 	return nil
 }

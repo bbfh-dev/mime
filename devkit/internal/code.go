@@ -35,7 +35,7 @@ func WriteIndentString(writer io.Writer, indent int) {
 	}
 }
 
-func ExtractIteratorsFrom(in string) []string {
+func ExtractVariablesFrom(in string) []string {
 	out := []string{}
 	reader := bufio.NewReader(strings.NewReader(in))
 	expect_bracket := false

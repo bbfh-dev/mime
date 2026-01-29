@@ -1,11 +1,15 @@
 package devkit
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 
+	liberrors "github.com/bbfh-dev/lib-errors"
 	"github.com/bbfh-dev/mime/cli"
 	"github.com/bbfh-dev/mime/devkit/internal"
+	"github.com/bbfh-dev/mime/devkit/language"
+	"github.com/tidwall/gjson"
 )
 
 // These are constants to make it clear no other values are allowed
@@ -68,6 +72,67 @@ func (project *Project) CheckIfCached(value *bool, folder string) internal.Task 
 }
 
 func (project *Project) LoadTemplates() error {
-	// TODO: this
+	if project.isDataCached && project.isAssetsCached {
+		return nil
+	}
+
+	_, err := os.Stat("templates")
+	if os.IsNotExist(err) {
+		cli.LogDebug(1, "No templates found")
+		return nil
+	}
+
+	cli.LogInfo(1, "Loading templates")
+
+	entries, err := os.ReadDir("templates")
+	if err != nil {
+		return liberrors.NewIO(err, internal.ToAbs("templates"))
+	}
+
+	for entry := range internal.IterateDirsOnly(entries) {
+		path := filepath.Join("templates", entry.Name(), "manifest.json")
+		manifest_data, err := os.ReadFile(path)
+		if err != nil {
+			return liberrors.NewIO(err, internal.ToAbs(path))
+		}
+		manifest := internal.NewJsonFile(manifest_data)
+
+		if err := manifest.ExpectField("type", gjson.String); err != nil {
+			return &liberrors.DetailedError{
+				Label:   liberrors.ERR_VALIDATE,
+				Context: liberrors.DirContext{Path: path},
+				Details: err.Error(),
+			}
+		}
+
+		dir := filepath.Join("templates", entry.Name())
+		template_type := manifest.Get("type").String()
+		switch template_type {
+
+		case "inline":
+			template, err := language.NewInlineTemplate(dir, manifest)
+			if err != nil {
+				return err
+			}
+			project.inlineTemplates[entry.Name()] = template
+			cli.LogDebug(2, "Loaded inline %q", entry.Name())
+
+		case "generate":
+			template, err := language.NewGeneratorTemplate(dir, manifest)
+			if err != nil {
+				return err
+			}
+			project.generatorTemplates[entry.Name()] = template
+			cli.LogDebug(2, "Loaded generator %q", entry.Name())
+
+		default:
+			return &liberrors.DetailedError{
+				Label:   liberrors.ERR_SYNTAX,
+				Context: liberrors.DirContext{Path: path},
+				Details: fmt.Sprintf("unknown template type %q", template_type),
+			}
+		}
+	}
+
 	return nil
 }

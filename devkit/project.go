@@ -4,6 +4,7 @@ import (
 	libescapes "github.com/bbfh-dev/lib-ansi-escapes"
 	"github.com/bbfh-dev/mime/cli"
 	"github.com/bbfh-dev/mime/devkit/internal"
+	"github.com/bbfh-dev/mime/devkit/language"
 	"github.com/bbfh-dev/mime/devkit/minecraft"
 )
 
@@ -14,15 +15,22 @@ type Project struct {
 	extraFilesToCopy []string
 	isDataCached     bool
 	isAssetsCached   bool
+
+	generatorTemplates map[string]*language.GeneratorTemplate
+	inlineTemplates    map[string]*language.InlineTemplate
 }
 
 func New(mcmeta *minecraft.PackMcmeta) *Project {
 	return &Project{
-		Meta:             mcmeta,
-		BuildDir:         cli.Main.Options.Output,
+		Meta:     mcmeta,
+		BuildDir: cli.Main.Options.Output,
+
 		extraFilesToCopy: []string{},
 		isDataCached:     false,
 		isAssetsCached:   false,
+
+		generatorTemplates: map[string]*language.GeneratorTemplate{},
+		inlineTemplates:    map[string]*language.InlineTemplate{},
 	}
 }
 

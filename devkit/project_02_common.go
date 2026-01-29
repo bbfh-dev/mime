@@ -30,7 +30,7 @@ func (project *Project) clearDir(path string) internal.Task {
 
 func (project *Project) copyPackDirs(
 	folder, out_folder string,
-	folders []string,
+	folders *[]string,
 ) internal.AsyncTask {
 	return func(errs *errgroup.Group) error {
 		data_entries, err := os.ReadDir(folder)
@@ -49,7 +49,9 @@ func (project *Project) copyPackDirs(
 				path := filepath.Join(folder, data_entry.Name(), folder_entry.Name())
 				switch folder_entry.Name() {
 				case "function", "functions":
-					folders = append(folders, path)
+					if folders != nil {
+						*folders = append(*folders, path)
+					}
 				default:
 					cli.LogDebug(1, "Copying directory %q", path)
 					errs.Go(func() error {

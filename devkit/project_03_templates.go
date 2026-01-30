@@ -3,6 +3,7 @@ package devkit
 import (
 	"os"
 	"path/filepath"
+	"strings"
 
 	liberrors "github.com/bbfh-dev/lib-errors"
 	"github.com/bbfh-dev/mime/cli"
@@ -52,9 +53,11 @@ func (project *Project) GenerateFromTemplates() error {
 					file := file.Clone()
 					err = internal.SubstituteGenericFile(file, definition.Env)
 					if err != nil {
+						path = strings.TrimPrefix(path, "data_pack/")
+						path = strings.TrimPrefix(path, "resource_pack/")
 						return &liberrors.DetailedError{
 							Label:   liberrors.ERR_FORMAT,
-							Context: liberrors.DirContext{Path: path},
+							Context: liberrors.DirContext{Path: filepath.Join(root, path)},
 							Details: err.Error(),
 						}
 					}

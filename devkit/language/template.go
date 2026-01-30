@@ -117,6 +117,8 @@ func NewGeneratorTemplate(root string, manifest *internal.JsonFile) (*GeneratorT
 		return nil, err
 	}
 
+	// TODO: load data into Env
+
 	return template, nil
 }
 
@@ -197,7 +199,7 @@ func (template *GeneratorTemplate) defineUsingIterators(
 		}
 
 		file := file.Clone()
-		if err := internal.SubstituteFile(file, env); err != nil {
+		if err := internal.SubstituteJsonFile(file, env); err != nil {
 			return &liberrors.DetailedError{
 				Label:   liberrors.ERR_FORMAT,
 				Context: liberrors.DirContext{Path: filepath.Join(template.Dir, "templates", name)},

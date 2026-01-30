@@ -3,9 +3,14 @@ package internal
 import (
 	"bufio"
 	"fmt"
+	"io/fs"
+	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
+	"sync"
 
+	liberrors "github.com/bbfh-dev/lib-errors"
 	"github.com/tidwall/gjson"
 )
 
@@ -90,8 +95,30 @@ func SimpleSubstitute(in string, env Env) (string, error) {
 	}
 }
 
-func SubstituteFile(file *JsonFile, env Env) error {
+func SubstituteJsonFile(file *JsonFile, env Env) error {
 	return SubstituteObject(file, env, "@this")
+}
+
+func SubstituteGenericFile(file *GenericFile, env Env) error {
+	switch file.Ext {
+
+	case ".json":
+		json_file := NewJsonFile(file.Body)
+		err := SubstituteJsonFile(json_file, env)
+		if err != nil {
+			return err
+		}
+		file.Body = json_file.Body
+
+	case ".mcfunction", ".txt", ".md", ".py", ".js", ".ts", ".sh":
+		body, err := SimpleSubstitute(string(file.Body), env)
+		if err != nil {
+			return err
+		}
+		file.Body = []byte(body)
+	}
+
+	return nil
 }
 
 func SubstituteObject(file *JsonFile, env Env, path string) error {
@@ -202,7 +229,7 @@ func SubstituteString(file *JsonFile, env Env, path string, value gjson.Result) 
 	if !ok {
 		return fmt.Errorf("undefined variable %q", variables[0])
 	}
-	file.Set(path, value)
+	file.Set(path, value.Value())
 
 	return nil
 }
@@ -219,4 +246,41 @@ func isSmartValue(value string, variables []string) bool {
 		return false
 	}
 	return len(value) == len("%[")+len(variables[0])+len("]")
+}
+
+func LoadTree(root string, dirs ...[2]string) (map[string]*GenericFile, error) {
+	tree := map[string]*GenericFile{}
+	var mutex sync.Mutex
+
+	for _, entry := range dirs {
+		dir := filepath.Join(root, entry[0])
+		out_dir := entry[1]
+		if _, err := os.Stat(dir); os.IsNotExist(err) {
+			continue
+		}
+		err := filepath.WalkDir(dir, func(path string, entry fs.DirEntry, err error) error {
+			if err != nil || entry.IsDir() {
+				return err
+			}
+
+			data, err := os.ReadFile(path)
+			if err != nil {
+				return err
+			}
+
+			path = strings.TrimPrefix(path, dir+"/")
+			path = filepath.Join(out_dir, path)
+
+			mutex.Lock()
+			tree[path] = NewGenericFile(filepath.Ext(path), data)
+			mutex.Unlock()
+
+			return nil
+		})
+		if err != nil {
+			return nil, liberrors.NewIO(err, dir)
+		}
+	}
+
+	return tree, nil
 }

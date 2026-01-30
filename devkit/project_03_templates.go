@@ -1,7 +1,11 @@
 package devkit
 
 import (
+	"fmt"
+	"path/filepath"
+
 	"github.com/bbfh-dev/mime/cli"
+	"github.com/bbfh-dev/mime/devkit/internal"
 )
 
 func (project *Project) GenerateFromTemplates() error {
@@ -16,14 +20,33 @@ func (project *Project) GenerateFromTemplates() error {
 
 	cli.LogInfo(0, "Generating code from %d template(s)", len(project.generatorTemplates))
 
-	for name, template := range project.generatorTemplates {
-		cli.LogDebug(1, "Generating from %q", name)
+	for template_name, template := range project.generatorTemplates {
+		cli.LogDebug(1, "Generating from %q", template_name)
 
-		for name := range template.Definitions {
-			cli.LogDebug(2, "Create %q", name)
+		for definition_name, definition := range template.Definitions {
+			cli.LogDebug(2, "Create %q", template_name)
+
+			root := filepath.Join("templates", template_name)
+			tree, err := internal.LoadTree(
+				root,
+				[2]string{"data", "data_pack"},
+				[2]string{"assets", "resource_pack"},
+			)
+			if err != nil {
+				return err
+			}
+
+			for path, file := range tree {
+				fmt.Println(path, file, definition_name, definition)
+			}
 		}
 
-		cli.LogDone(1, "Finished generating %q for %d definitions", name, len(template.Definitions))
+		cli.LogDone(
+			1,
+			"Finished generating %q for %d definitions",
+			template_name,
+			len(template.Definitions),
+		)
 	}
 
 	return nil

@@ -6,7 +6,7 @@ import (
 
 	liberrors "github.com/bbfh-dev/lib-errors"
 	libparsex "github.com/bbfh-dev/lib-parsex/v3"
-	"github.com/bbfh-dev/mime/mime/minecraft"
+	"github.com/bbfh-dev/mime/devkit/minecraft"
 )
 
 var Init struct {

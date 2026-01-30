@@ -268,7 +268,7 @@ func LoadTree(root string, dirs ...[2]string) (map[string]*GenericFile, error) {
 				return err
 			}
 
-			path = strings.TrimPrefix(path, dir+"/")
+			path = strings.TrimPrefix(path, root+"/")
 			path = filepath.Join(out_dir, path)
 
 			mutex.Lock()

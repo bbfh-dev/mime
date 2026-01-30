@@ -117,7 +117,20 @@ func NewGeneratorTemplate(root string, manifest *internal.JsonFile) (*GeneratorT
 		return nil, err
 	}
 
-	// TODO: load data into Env
+	for name, definition := range template.Definitions {
+		definition.Env.Variables["id"] = gjson.Result{
+			Type: gjson.String,
+			Str:  strings.TrimSuffix(name, filepath.Ext(name)),
+		}
+		definition.Env.Variables["filename"] = gjson.Result{
+			Type: gjson.String,
+			Str:  name,
+		}
+		for _, key := range definition.File.Get("@keys").Array() {
+			value := definition.File.Get(key.String())
+			definition.Env.Variables[key.String()] = value
+		}
+	}
 
 	return template, nil
 }

@@ -5,8 +5,6 @@ import (
 	"os"
 	"path/filepath"
 	"time"
-
-	"github.com/bbfh-dev/mime/cli"
 )
 
 func GetMostRecentIn(dirs ...string) time.Time {
@@ -50,7 +48,6 @@ func IterateDirsOnly(entries []os.DirEntry) func(func(os.DirEntry) bool) {
 	return func(yield func(os.DirEntry) bool) {
 		for _, entry := range entries {
 			if !entry.IsDir() {
-				cli.LogDebug(2, "Skipping file %q", entry.Name())
 				continue
 			}
 			if !yield(entry) {
@@ -64,7 +61,6 @@ func IterateFilesOnly(entries []os.DirEntry) func(func(os.DirEntry) bool) {
 	return func(yield func(os.DirEntry) bool) {
 		for _, entry := range entries {
 			if entry.IsDir() {
-				cli.LogDebug(2, "Skipping folder %q", entry.Name())
 				continue
 			}
 			if !yield(entry) {

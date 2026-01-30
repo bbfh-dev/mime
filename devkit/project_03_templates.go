@@ -40,6 +40,7 @@ func (project *Project) GenerateFromTemplates() error {
 				if err != nil {
 					return err
 				}
+
 				for path, file := range tree {
 					new_path, err := internal.SimpleSubstitute(path, definition.Env)
 					if err != nil {
@@ -73,6 +74,7 @@ func (project *Project) GenerateFromTemplates() error {
 
 					cli.LogDebug(2, "Saved %q", new_path)
 				}
+
 				return nil
 			})
 		}
@@ -80,6 +82,7 @@ func (project *Project) GenerateFromTemplates() error {
 		if err := errs.Wait(); err != nil {
 			return err
 		}
+
 		cli.LogDone(
 			1,
 			"Finished generating %q for %d definitions",

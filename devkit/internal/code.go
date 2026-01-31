@@ -109,3 +109,43 @@ func ResourceToPath(folder_name, resource string) string {
 	}
 	return filepath.Join(parts[0], folder_name, parts[1])
 }
+
+func Fields(in string) []string {
+	reader := bufio.NewReader(strings.NewReader(in))
+	var out []string
+	var builder strings.Builder
+
+	for {
+		char, _, err := reader.ReadRune()
+		if err != nil {
+			goto exit
+		}
+
+		switch char {
+
+		case ' ':
+			out = append(out, builder.String())
+			builder.Reset()
+
+		case '"', '\'', '`':
+			str, err := reader.ReadString(byte(char))
+			if err != nil {
+				goto exit
+			}
+			if char == '`' {
+				builder.WriteString(strings.TrimSuffix(str, string(char)))
+			} else {
+				builder.WriteString(string(char) + str)
+			}
+
+		default:
+			builder.WriteRune(char)
+		}
+	}
+
+exit:
+	if builder.Len() != 0 {
+		out = append(out, builder.String())
+	}
+	return out
+}

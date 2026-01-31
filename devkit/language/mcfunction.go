@@ -86,7 +86,7 @@ func (fn *Mcfunction) parse(
 		}
 
 		contents := line.Contents[2:]
-		fields := strings.Fields(contents)
+		fields := internal.Fields(contents)
 		name := fields[0]
 
 		template, ok := templates[name]

@@ -85,6 +85,12 @@ func SimpleSubstitute(in string, env Env) (string, error) {
 									}
 								}
 								out = builder.String()
+							case "to_lower_case":
+								out = strings.ToLower(out)
+							case "to_upper_case":
+								out = strings.ToUpper(out)
+							case "length":
+								out = fmt.Sprint(len(out))
 							default:
 								return "", fmt.Errorf(
 									"unknown variable modifier %q from %q",

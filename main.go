@@ -15,7 +15,7 @@ var Version = "unset"
 var MainProgram = libparsex.Program{
 	Name:        "mime",
 	Version:     Version,
-	Description: "Minecraft data-driven vanilla data & resource pack development kit powered by pre-processors and generators",
+	Description: "Minecraft data-driven vanilla data & resource pack development kit powered by pre-processors and generators with minimum boilerplate and setup",
 	Options:     &cli.Main.Options,
 	Args:        &cli.Main.Args,
 	Commands: []*libparsex.Program{

@@ -39,7 +39,6 @@ func (project *Project) GenerateDataPack() error {
 		internal.Async(
 			project.parseMcFunctions(&funcFoldersToParse),
 		),
-		project.writeMcfunctions,
 		project.copyExtraFiles(path),
 		project.createPackMcmeta("data_pack", minecraft.DataPackFormats),
 	)

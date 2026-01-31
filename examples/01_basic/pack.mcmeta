@@ -2,7 +2,7 @@
 	"meta": {
 		"name": "untitled",
 		"minecraft": {
-			"min": "1.21",
+			"min": "1.21.6",
 			"max": "1.21.11"
 		},
 		"version": "0.1.0-alpha"

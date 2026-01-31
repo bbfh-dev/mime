@@ -1,0 +1,8 @@
+{
+	"$schema": "../../../../resources/manifest_schema.json",
+	"type": "inline",
+	"arguments": [
+		"command",
+		"text"
+	]
+}

@@ -1,0 +1,29 @@
+{
+	"$schema": "../../../../resources/manifest_schema.json",
+	"type": "generate",
+	"iterators": {
+		"material": [
+			[
+				"acacia",
+				"acacia_planks"
+			],
+			[
+				"oak",
+				"oak_planks"
+			],
+			[
+				"spruce",
+				"spruce_planks"
+			],
+			[
+				"stone",
+				"stone_bricks"
+			]
+		],
+		"color": [
+			"red",
+			"green",
+			"blue"
+		]
+	}
+}

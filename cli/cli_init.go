@@ -3,6 +3,7 @@ package cli
 import (
 	"os"
 	"path/filepath"
+	"strings"
 
 	liberrors "github.com/bbfh-dev/lib-errors"
 	libparsex "github.com/bbfh-dev/lib-parsex/v3"
@@ -45,7 +46,12 @@ var InitProgram = libparsex.Program{
 			mcmeta.File.Set("pack.description", value)
 		}
 		mcmeta.File.Set("meta.name", Init.Options.Name)
-		mcmeta.File.Set("meta.minecraft", Init.Options.Minecraft)
+		if parts := strings.SplitN(Init.Options.Minecraft, "-", 2); len(parts) == 2 {
+			mcmeta.File.Set("meta.minecraft.min", parts[0])
+			mcmeta.File.Set("meta.minecraft.max", parts[1])
+		} else {
+			mcmeta.File.Set("meta.minecraft", Init.Options.Minecraft)
+		}
 		mcmeta.File.Set("meta.version", Init.Options.PackVersion)
 
 		err = os.WriteFile("pack.mcmeta", mcmeta.File.Formatted(), os.ModePerm)

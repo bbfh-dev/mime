@@ -1,65 +1,99 @@
-# Mime
+# 📦️ Mime
 
-Minecraft data-driven vanilla data & resource pack development kit powered by pre-processors and generators
-Minecraft data & resource pack processor designed to be a useful tool for vanilla development rather than a new scripting language or ecosystem.
+Minecraft data-driven vanilla data & resource pack development kit powered by pre-processors and generators with minimum boilerplate and setup.
+
+> Mime uses <q>simple by default, powerful when needed</q> philosophy.
 
 > [!CAUTION]
-> This project is still in **alpha**. Expect bugs & breaking changes.
+> If you are using Windows (god bless your soul), the behavior of [executable inline templates](#1422-executable-inline-template) is undefined/untested.
+>
+> I have no plans of ever installing Windows to test or debug.
 
 ## Table of Contents
 
 <!-- vim-markdown-toc GFM -->
 
-* [0 Roadmap before v1.x](#0-roadmap-before-v1x)
+* [0 Why it exists](#0-why-it-exists)
 * [1 Features](#1-features)
-    * [1.1 Nested functions](#11-nested-functions)
-    * [1.2 Mcmeta generation](#12-mcmeta-generation)
-    * [1.3 Add-ons](#13-add-ons)
-        * [1.3.1 Defining an add-on](#131-defining-an-add-on)
-        * [1.3.2 Syntax](#132-syntax)
-        * [1.3.3 Definitions file](#133-definitions-file)
+    * [1.1 Relative resource paths](#11-relative-resource-paths)
+    * [1.2 Nested functions](#12-nested-functions)
+    * [1.3 Mcmeta generation](#13-mcmeta-generation)
+        * [1.3.1 Name](#131-name)
+        * [1.3.2 Minecraft](#132-minecraft)
+        * [1.3.3 Version](#133-version)
+    * [1.4 Templates](#14-templates)
+        * [1.4.1 Substitutions](#141-substitutions)
+        * [1.4.2 Inline templates](#142-inline-templates)
+            * [1.4.2.1 Simple inline template](#1421-simple-inline-template)
+            * [1.4.2.2 Executable inline template](#1422-executable-inline-template)
+            * [1.4.2.3 Invoking inline templates](#1423-invoking-inline-templates)
+        * [1.4.3 Generator templates](#143-generator-templates)
+            * [1.4.3.1 Definitions](#1431-definitions)
+            * [1.4.3.2 Iterators](#1432-iterators)
+* [2 CLI](#2-cli)
+    * [2.1 Installation](#21-installation)
+        * [2.1.1 Pre-built binaries](#211-pre-built-binaries)
+        * [2.1.2 Using Go CLI](#212-using-go-cli)
+    * [2.2 Usage](#22-usage)
+        * [2.2.1 Init](#221-init)
+        * [2.2.2 Index](#222-index)
 
 <!-- vim-markdown-toc -->
 
-# 0 Roadmap before v1.x
+# 0 Why it exists
 
-- [ ] Add examples
-- [ ] Add tests for all examples
-- [ ] Add tests for the handling of invalid state
+There exist alternative long-established development kits such as [Beet](https://github.com/mcbeet/beet). **So why does this project exist?**
 
-- [ ] Make mcfunction parsing more advanced
+1. Mime **doesn't force you** to use a specific scripting language (e.g., Python or JavaScript);
+2. Mime **is lightweight**. A project is just `pack.mcmeta` metadata, no environment setups are required.
+3. Mime **is simple**. Any generated files are defined separately as [templates](#14-templates), functions still use `mcfunction` with the addition of [sugar-code](#1-features).
+4. Mime **is a statically-linked binary**. That means it's portable and performant.
 
 # 1 Features
 
-## 1.1 Nested functions
+## 1.1 Relative resource paths
 
-Create nested functions by adding indentation (must be a tab or 4 spaces) to code subsequent to a function call.
-
-Resource location can use `./` for relative paths.
+Any mention of `./` will be replaced with the path to the current file as a resource.
 
 ```mcfunction
-# example:test
+# File: data/example/function/load.mcfunction
+function ./_my_nested_function
+```
+
+> 📂 **Produces:**
+>
+> ```mcfunction
+> # File: data/example/function/load.mcfunction
+> function example:load/_my_nested_function
+> ```
+
+## 1.2 Nested functions
+
+Create nested functions by adding indentation (must be a tab or 4 spaces) to code, subsequent to a function call.
+
+```mcfunction
+# File: data/example/function/test.mcfunction
 execute as @e run function ./_my_nested_function
     say 123
     kill @s
 ```
 
-Would create the following files:
+> 📂 **Produces:**
+>
+> ```mcfunction
+> # File: data/example/function/test.mcfunction
+> execute as @e run function example:test/_my_nested_function
+> ```
+>
+> ```mcfunction
+> # File: data/example/function/test/_my_nested_function.mcfunction
+> say 123
+> kill @s
+> ```
 
-```mcfunction
-# example:test
-execute as @e run function example:test/_my_nested_function
-```
+## 1.3 Mcmeta generation
 
-```mcfunction
-# example:test/_my_nested_function
-say 123
-kill @s
-```
-
-## 1.2 Mcmeta generation
-
-`pack.mcmeta` files for both data & resource packs are automatically generated with the appropriate format based on supproted Minecraft versions.
+`pack.mcmeta` files for both data & resource packs are automatically generated with the appropriate format based on supported Minecraft versions.
 
 ```jsonc
 // Local pack.mcmeta
@@ -69,170 +103,314 @@ kill @s
     },
     "meta": {
         "name": "example",
-        "minecraft": "1.20-1.21.11",
+        "minecraft": {
+            "min": "1.20",
+            "max": "1.21.1"
+        },
         "version": "0.1.0-alpha"
     }
 }
 ```
 
-Generates the following data pack meta
+> 📂 **Produces:**
+>
+> ```jsonc
+> // build/data_pack/pack.mcmeta
+> {
+>     "pack": {
+>         "description": "This is my pack",
+>         "pack_format": 48,
+>         "min_format": [48, 0],
+>         "max_format": [94, 1]
+>     },
+>     "meta": {
+>         "name": "example",
+>         "minecraft": {
+>             "min": "1.20",
+>             "max": "1.21.1"
+>         },
+>         "version": "0.1.0-alpha"
+>     }
+> }
+> ```
+
+### 1.3.1 Name
+
+Field `meta.name` must be a `string`.
+It is used to generate `.zip` files[⁽¹⁾](#22-usage).
+
+### 1.3.2 Minecraft
+
+Field `meta.minecraft` must be one of:
+- a `string` with the Minecraft version;
+- an `object` containing `min` and `max` fields with the minimum and maximum Minecraft versions, respectively;
+
+### 1.3.3 Version
+
+The project's version. It is recommended to use [semantic versioning](https://semver.org/), it is not enforced.
+It is used to generate `.zip` files[⁽¹⁾](#22-usage).
+
+## 1.4 Templates
+
+Templates enable data-driven generation of data & resource pack files.
+
+They are defined using a `templates/<template_name>/manifest.json` file at the root of the project.
+
+See [Examples / 02_templates](./examples/02_templates) for examples.
+
+### 1.4.1 Substitutions
+
+Template file contents and file/directory names can be formatted with variables by using `%[<name>]`.
+
+Depending on the context, `"%[<name>]"` inside of `.json` files can be substituted with any value, not just a string.
+
+- Iterators can contain an index (defaults to 0) when necessary e.g. `%[<iterator>.1]` or `%[<iterator>.2]`.
+- Variables can contain modifiers e.g. `[<name>.<modifier>]`:
+    - `to_file_name`: limits the value to `[a-z+_]` charset (whitespace gets replaced with an `_`).
+    - `to_lower_case`: converts the string to all lower case.
+    - `to_upper_case`: converts the string to all upper case.
+    - `length`: converts to the length of the string.
 
 ```jsonc
-// build/data_pack/pack.mcmeta
 {
-    "pack": {
-        "description": "This is my pack",
-        "pack_format": 48,
-        "min_format": [48, 0],
-        "max_format": [94, 1]
-    },
-    "meta": {
-        "name": "example",
-        "minecraft": "1.21-1.21.11",
-        "version": "0.1.0-alpha"
+    "key": "%[value]"
+}
+
+// Could become:
+{
+    "key": "my_value"
+}
+
+// Or, depending on the input:
+{
+    "key": {
+        "literally": "anything"
     }
 }
 ```
 
-## 1.3 Add-ons
+> [!NOTE]
+> An `%[id]` is always provided as the unique identifier of the `definitions/` file (with all iterators substituted).
+>
+> Usually, all files must contain this in their path to prevent clashing (when different definitions try to create the same file).
 
-> [!CAUTION]
-> Add-ons are still a **prototype**. It is yet to become a fully implemented feature!
+### 1.4.2 Inline templates
 
-Data-driven generattion of data & resource pack files.
+Allow you to add new syntax to `mcfunction` files.
 
-### 1.3.1 Defining an add-on
-
-All add-ons are defined inside of the `<project_root>/addons/` directory, where `<project_root>` is the directory with `assets/`, `data/`, `pack.mcmeta`, etc.
-
-An add-on is a directory that has the following structure:
-```bash
-./addons/my_example_addon/
-├── data/
-│   └── # (Optional) Template files for the data pack
-├── assets/
-│   └── # (Optional) Template files for the resource pack
-└── definitions.json # Main file
+```jsonc
+// manifest.json
+{
+    "$schema": "https://raw.githubusercontent.com/bbfh-dev/mime/refs/heads/main/resources/manifest_schema.json",
+    "type": "inline",
+    // (Example) requires 3 positional arguments.
+    "arguments": [
+        "arg1",
+        "arg2",
+        "arg3"
+    ],
+    // (Example) don't define "arguments" or set it to "null"
+    // if you want any number of input arguments
+    // NOTE: all arguments are provided as a single string argument
+    "arguments": null
+}
 ```
 
-### 1.3.2 Syntax
+The contents of the template can be one of the following:
 
-Whether be in a file or directory name, a JSON key or value, or an mcfunction command you can use the following syntax:
+#### 1.4.2.1 Simple inline template
 
-`%[<JSON selector>]` to insert a value from the current definition item (e.g. `%[id]` would insert `%[bubble_bench]` in the first iterator of the example below).
+Create a `body.mcfunction` file. Its contents will be inserted in place of the invocation.
 
-JSON file keys also have a special syntax `%-><JSON key>` that **expands** the value merging it with any existing key of that name (e.g. `"%->Tags": "%[tags]"` would append all elements of `tags` into `Tags` from the example below).
-
-### 1.3.3 Definitions file
-
-The JSON schema can be found here: `./definitions.schema.json`.
+Use `%[...]` to place any nested code.
 
 Example:
+```mcfunction
+# for/body.mcfunction
+# this is an example '#!for @s my_objective ..5' for-loop implementation
+scoreboard players set %[target] %[objective] 0
+function ./_for_each_%[target.to_file_name]
+	%[...]
+	scoreboard players add %[target] %[objective] 1
+	execute if score %[target] %[objective] matches %[range] run function ./_for_each_%[target.to_file_name]
+```
+
+#### 1.4.2.2 Executable inline template
+
+Create a `call` file; it can optionally have any extension (e.g., `call.py` or `call.sh` is valid) as long as it is an executable.
+
+Example:
+```sh
+#!/bin/sh
+
+echo "$*"
+cat # this will print all nested code right after
+```
+
+#### 1.4.2.3 Invoking inline templates
+
+While inside of `mcfunction` files, you can use `#!<template_name> <args...>` syntax. The inline template will be written in place of the line.
+
+Any nested code will be fed to the template.
+
+```mcfunction
+#!for @s my_objective ..5
+    say 123
+    say abc
+```
+
+### 1.4.3 Generator templates
+
+As the name suggests, they generate files from a user-defined list of items.
 
 ```jsonc
+// manifest.json
 {
-    "$schema": "(...)/definitions.schema.json",
+    "$schema": "https://raw.githubusercontent.com/bbfh-dev/mime/refs/heads/main/resources/manifest_schema.json",
+    "type": "generator",
+    // (Example) define 2 iterators
     "iterators": {
         "material": [
-            "oak",
-            "spruce"
+            [
+                "acacia",
+                "acacia_planks"
+            ],
+            [
+                "oak",
+                "oak_planks"
+            ],
+            [
+                "spruce",
+                "spruce_planks"
+            ],
+            [
+                "stone",
+                "stone_bricks"
+            ]
         ],
         "color": [
             "red",
-            "white",
-            "yellow"
+            "green",
+            "blue"
         ]
-    },
-    "definitions": [
+    }
+}
+```
+
+Create your regular minecraft files inside the `data/` & `assets/` directories, which will be merged with the data/resource pack. Note, that paths should use substitutions preferably with `%[id]` to avoid clashing.
+
+#### 1.4.3.1 Definitions
+
+Define `definitions/<name>.json` files, optionally using previously defined iterators. The contents off the files will be provided to every data/resource pack file for substitution.
+
+```jsonc
+// Example, you can put anything in here:
+{
+    "block": "%[material.1]",
+    "recipe": [
         {
-            // All of these fields are made up for this specific project.
-            // Put whatever you want here, just make sure that
-            // all keys are defined on ALL of the objects inside .definitions
-            "id": "bubble_bench",
-            "category": "furniture",
-            "base": "barrel[facing=up]",
-            "sound": "industrial",
-            "facing": "player",
-            "recipe": [
-                {
-                    "group": "block",
-                    "id": "crafting_table",
-                    "count": 1
-                },
-                {
-                    "group": "item",
-                    "id": "glass_bottle",
-                    "count": 1
-                }
-            ],
-            "material": {
-                "index": 0,
-                "name": "default"
-            },
-            "material_index": 0,
-            "tags": [
-                "--bbln.uses.gui",
-                "--bbln.uses.brightness_fix"
-            ]
-        },
-        {
-            // You can use iterators like this
-            // an iterator is just a for-each loop
-            // that exposes %[<iterator_name>] for the current `array[i]` value
-            // and %[i] for the current `i` value
-            "iterate": "material",
-            "return": {
-                "category": "furniture",
-                "id": "%[material]_table",
-                "base": "structure_void",
-                "sound": "wooden",
-                "facing": "player",
-                "recipe": [
-                    {
-                        "group": "block",
-                        "id": "%[material]_planks",
-                        "count": 4
-                    }
-                ],
-                "material": {
-                    "index": "%[i]",
-                    "name": "%[material]"
-                },
-                "tags": []
-            }
+            "id": 1,
+            "name": "some item here"
         }
     ]
 }
 ```
 
-```mcfunction
-#!for #y tmp ..5
-    #!for #x tmp ..5
-        say 123
-        #!function ./_sometrhing
-            say "abc"
-            function ./nested
-                say 890
-            say 456
-        say "end"
+#### 1.4.3.2 Iterators
+
+Iterators allow you to generate definitions for every unique combination of values.
+
+Example:
+```bash
+# File:
+%[color]_%[material]_chair.json
+
+# Would generate (assuming you are using the iterators from the example above):
+red_acacia_chair.json
+green_acacia_chair.json
+blue_acacia_chair.json
+red_oak_chair.json
+green_oak_chair.json
+# etc...
 ```
 
-----
+The definition file will be substituted with the current iterator value.
 
-```mcfunction
-scoreboard players set #y tmp 0
-function ./_for_each_y
-    scoreboard players set #x tmp 0
-    function ./_for_each_x
-        say 123
-        function ./_sometrhing
-            say "abc"
-            function ./nested
-                say 890
-            say 456
-        say "end"
-        scoreboard players add #x tmp 1
-        execute if score #x tmp matches ..2 run function ./_for_each_x
-    scoreboard players add #y tmp 1
-    execute if score #y tmp matches ..5 run function ./_for_each_y
+# 2 CLI
+
+## 2.1 Installation
+
+### 2.1.1 Pre-built binaries
+
+1. Download the [latest release](https://github.com/bbfh-dev/mime/releases/latest) for your OS and architecture.
+2. Put it into a directory listed in your `$PATH`;
+
+### 2.1.2 Using Go CLI
+
+1. Assuming you have [Go](https://go.dev/) installed;
+2. Run `go install github.com/bbfh-dev/mime@latest`
+
+## 2.2 Usage
+
+### 2.2.1 Init
+
+This utility is used to initialize a new Mime project or convert an existing data/resource pack into the appropriate format.
+
+Under the hood, it simply writes fields to `pack.mcmeta`, as this is the only requirement for Mime.
+
+```
+Initialize a new Mime project
+
+[?] Usage:
+    init [options...] <work-dir?>
+
+[#] Options:
+    --help
+        # Print this help message and exit
+    --name, -n <string> (default: untitled)
+        # Specify the project name that will be used for exporting
+    --minecraft, -m <string> (default: 1.21.11)
+        # Specify the target Minecraft version. Use '-' to indicate version ranges, e.g. '1.20-1.21'
+    --version, -v <string> (default: 0.1.0-alpha)
+        # Specify the project version using semantic versioning
+    --description, -d <string>
+        # Specify the project description
+```
+
+Example usage:
+```bash
+# Note that all of the flags are optional
+$ mime init ./examples/01_basic --name=untitled --pack-version=1.0.0 --minecraft=1.21.11 --description "Hello World!"
+```
+
+### 2.2.2 Index
+
+```
+Minecraft data-driven vanilla data & resource pack development kit powered by pre-processors and generators
+
+[?] Usage:
+    mime [options...] <work-dir?>
+
+[>] Commands:
+    init
+        # Initialize a new Mime project
+
+[#] Options:
+    --help
+        # Print this help message and exit
+    --version
+        # Print program version and exit
+    --output, -o <string> (default: ./build)
+        # Output directory relative to the pack working dir
+    --zip, -z
+        # Export data & resource packs as .zip files
+    --debug, -d
+        # Print verbose debug information
+    --force, -f
+        # Force build even if the project was cached
+```
+
+Example usage:
+```bash
+$ mime -o /tmp/mime-build --zip --debug ./examples/02_templates
 ```

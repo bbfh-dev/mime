@@ -13,7 +13,7 @@ var Init struct {
 	Options struct {
 		Name        string `alt:"n" desc:"Specify the project name that will be used for exporting" default:"untitled"`
 		Minecraft   string `alt:"m" desc:"Specify the target Minecraft version. Use '-' to indicate version ranges, e.g. '1.20-1.21'" default:"1.21.11"`
-		Version     string `alt:"v" desc:"Specify the project version using semantic versioning" default:"0.1.0-alpha"`
+		PackVersion string `alt:"v" desc:"Specify the project version using semantic versioning" default:"0.1.0-alpha"`
 		Description string `alt:"d" desc:"Specify the project description"`
 	}
 	Args struct {
@@ -46,7 +46,7 @@ var InitProgram = libparsex.Program{
 		}
 		mcmeta.File.Set("meta.name", Init.Options.Name)
 		mcmeta.File.Set("meta.minecraft", Init.Options.Minecraft)
-		mcmeta.File.Set("meta.version", Init.Options.Version)
+		mcmeta.File.Set("meta.version", Init.Options.PackVersion)
 
 		err = os.WriteFile("pack.mcmeta", mcmeta.File.Formatted(), os.ModePerm)
 		if err != nil {
@@ -58,7 +58,7 @@ var InitProgram = libparsex.Program{
 			0,
 			"Saved 'pack.mcmeta' for name=%q version=%q minecraft=%q",
 			Init.Options.Name,
-			Init.Options.Version,
+			Init.Options.PackVersion,
 			Init.Options.Minecraft,
 		)
 		return nil

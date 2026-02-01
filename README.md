@@ -13,7 +13,7 @@ Minecraft data-driven vanilla data & resource pack development kit powered by pr
 
 <!-- vim-markdown-toc GFM -->
 
-    * [Roadmap before v1](#roadmap-before-v1)
+* [Roadmap before v1](#roadmap-before-v1)
 * [0 Why it exists](#0-why-it-exists)
 * [1 Features](#1-features)
     * [1.1 Relative resource paths](#11-relative-resource-paths)
@@ -41,7 +41,7 @@ Minecraft data-driven vanilla data & resource pack development kit powered by pr
 
 <!-- vim-markdown-toc -->
 
-## Roadmap before v1
+# Roadmap before v1
 
 - [ ] Add support for overlays.
 

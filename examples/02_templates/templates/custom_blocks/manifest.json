@@ -1,5 +1,5 @@
 {
-	"$schema": "../../../../resources/manifest_schema.json",
+	"$schema": "https://bbfh.me/mime/manifest/schema.json",
 	"type": "generate",
 	"iterators": {
 		"material": [

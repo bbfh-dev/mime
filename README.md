@@ -257,7 +257,7 @@ Allow you to add new syntax to `mcfunction` files.
 ```jsonc
 // manifest.json
 {
-    "$schema": "https://raw.githubusercontent.com/bbfh-dev/mime/refs/heads/main/resources/manifest_schema.json",
+    "$schema": "https://bbfh.me/mime/manifest/schema.json",
     "type": "inline",
     // (Example) requires 3 positional arguments.
     "arguments": [
@@ -322,7 +322,7 @@ As the name suggests, they generate files from a user-defined list of items.
 ```jsonc
 // manifest.json
 {
-    "$schema": "https://raw.githubusercontent.com/bbfh-dev/mime/refs/heads/main/resources/manifest_schema.json",
+    "$schema": "https://bbfh.me/mime/manifest/schema.json",
     "type": "generator",
     // (Example) define 2 iterators
     "iterators": {

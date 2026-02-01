@@ -135,6 +135,7 @@ func (fn *Mcfunction) parse(
 			line.Write(&stdin, 4)
 		}
 
+		cli.LogDebug(1, "$ %s %s", name, strings.Join(args, " "))
 		err := template.Call(&stdout, &stdin, args)
 		if err != nil {
 			return &liberrors.DetailedError{
@@ -179,6 +180,7 @@ func (fn *Mcfunction) generate(tree map[string][]string, path string, line *Line
 		if len(nested_line.Nested) != 0 {
 			resource := nested_line.ExtractResource()
 			if resource == "" {
+				cli.LogDebug(1, "%s", line)
 				return &liberrors.DetailedError{
 					Label: liberrors.ERR_SYNTAX,
 					// TODO: this context isn't much helpful

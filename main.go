@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"runtime"
 
 	liberrors "github.com/bbfh-dev/lib-errors"
 	libparsex "github.com/bbfh-dev/lib-parsex/v3"
@@ -10,7 +11,7 @@ import (
 )
 
 // Use -ldflags="... main.Version=<version here>"
-var Version = "unset"
+var Version = runtime.Version()
 
 var MainProgram = libparsex.Program{
 	Name:        "mime",

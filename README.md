@@ -38,6 +38,7 @@ Minecraft data-driven vanilla data & resource pack development kit powered by pr
     * [2.2 Usage](#22-usage)
         * [2.2.1 Init](#221-init)
         * [2.2.2 Main](#222-main)
+* [3 Developer notes](#3-developer-notes)
 
 <!-- vim-markdown-toc -->
 
@@ -46,6 +47,7 @@ Minecraft data-driven vanilla data & resource pack development kit powered by pr
 - [ ] Add support for overlays.
 - [ ] Add support for nested inline templates.
 - [ ] Allow for whitespace in nested code.
+- [ ] Add more tests.
 
 # 0 Why it exists
 
@@ -424,3 +426,7 @@ Example usage:
 ```bash
 $ mime -o /tmp/mime-build --zip --debug ./examples/02_templates
 ```
+
+# 3 Developer notes
+
+- [ ] Refactor template code, because it's scattered around internal, language and mime.

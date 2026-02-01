@@ -61,10 +61,13 @@ There exist alternative long-established development kits such as [Beet](https:/
 ## 1.1 Relative resource paths
 
 Any mention of `./` will be replaced with the path to the current file as a resource.
+`../` can be used to reference the parent (only once).
 
 ```mcfunction
 # File: data/example/function/load.mcfunction
 function ./_my_nested_function
+    # this would create an infinite loop
+    function ../_my_nested_function
 ```
 
 > 📂 **Produces:**
@@ -239,7 +242,7 @@ scoreboard players set %[target] %[objective] 0
 function ./_for_each_%[target.to_file_name]
 	%[...]
 	scoreboard players add %[target] %[objective] 1
-	execute if score %[target] %[objective] matches %[range] run function ./_for_each_%[target.to_file_name]
+	execute if score %[target] %[objective] matches %[range] run function ../_for_each_%[target.to_file_name]
 ```
 
 #### 1.4.2.2 Executable inline template

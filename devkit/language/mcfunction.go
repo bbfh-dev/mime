@@ -162,7 +162,8 @@ func (fn *Mcfunction) GenerateFiles(lines []string) (map[string][]string, error)
 	fn.BuildTree()
 
 	tree := map[string][]string{}
-	err := fn.generate(tree, internal.PathToResource(fn.Path), fn.root)
+	path := internal.PathToResource(fn.Path)
+	err := fn.generate(tree, path, path, fn.root)
 	if err != nil {
 		return nil, err
 	}
@@ -170,11 +171,11 @@ func (fn *Mcfunction) GenerateFiles(lines []string) (map[string][]string, error)
 	return tree, nil
 }
 
-func (fn *Mcfunction) generate(tree map[string][]string, path string, line *Line) error {
+func (fn *Mcfunction) generate(tree map[string][]string, parent, path string, line *Line) error {
 	tree[path] = []string{}
 
 	for i, nested_line := range line.Nested {
-		nested_line.Format(path)
+		nested_line.Format(parent, path)
 		tree[path] = append(tree[path], nested_line.Contents)
 
 		if len(nested_line.Nested) != 0 {
@@ -189,7 +190,7 @@ func (fn *Mcfunction) generate(tree map[string][]string, path string, line *Line
 				}
 			}
 
-			err := fn.generate(tree, resource, nested_line)
+			err := fn.generate(tree, path, resource, nested_line)
 			if err != nil {
 				return err
 			}
@@ -306,7 +307,8 @@ func (line *Line) ExtractResource() string {
 	return ""
 }
 
-func (line *Line) Format(location string) *Line {
+func (line *Line) Format(parent, location string) *Line {
+	line.Contents = strings.ReplaceAll(line.Contents, "../", parent+"/")
 	line.Contents = strings.ReplaceAll(line.Contents, "./", location+"/")
 	return line
 }

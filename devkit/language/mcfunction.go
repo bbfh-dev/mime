@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	liberrors "github.com/bbfh-dev/lib-errors"
+	"github.com/bbfh-dev/mime/cli"
 	"github.com/bbfh-dev/mime/devkit/internal"
 )
 
@@ -203,16 +204,31 @@ func (fn *Mcfunction) ParseAndSave(templates map[string]*InlineTemplate) error {
 	}
 
 	for resource, lines := range tree {
-		path := internal.ResourceToPath("function", resource) + ".mcfunction"
-		if err := Add(filepath.Join("data", path), lines); err != nil {
-			return &liberrors.DetailedError{
-				Label:   liberrors.ERR_INTERNAL,
-				Context: liberrors.DirContext{Path: fn.Path},
-				Details: err.Error(),
+		if err := addFunction("function", resource, lines); err != nil {
+			return err
+		}
+	}
+
+	if cli.UsesPluralFolderNames {
+		for resource, lines := range tree {
+			if err := addFunction("functions", resource, lines); err != nil {
+				return err
 			}
 		}
 	}
 
+	return nil
+}
+
+func addFunction(folder, resource string, lines []string) error {
+	path := internal.ResourceToPath(folder, resource) + ".mcfunction"
+	if err := Add(filepath.Join("data", path), lines); err != nil {
+		return &liberrors.DetailedError{
+			Label:   liberrors.ERR_INTERNAL,
+			Context: liberrors.DirContext{Path: path},
+			Details: err.Error(),
+		}
+	}
 	return nil
 }
 

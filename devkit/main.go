@@ -33,6 +33,8 @@ func Main(raw_args []string) error {
 		}
 	}
 
+	cli.UsesPluralFolderNames = minecraft.UsesPluralFolderNames(mcmeta.Minecraft()[0])
+
 	start := time.Now()
 	project := New(mcmeta)
 	if err := project.Build(); err != nil {

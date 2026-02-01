@@ -41,6 +41,14 @@ func IsVersionSupported(version string) bool {
 	return ok
 }
 
+func UsesPluralFolderNames(version string) bool {
+	format, ok := DataPackFormats[version]
+	if !ok {
+		return false
+	}
+	return format.Digits[0] < DataPackFormats["1.21"].Digits[0]
+}
+
 type PackFormats map[string]PackVersion
 
 var DataPackFormats = PackFormats{

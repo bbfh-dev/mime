@@ -11,3 +11,5 @@ var Main struct {
 		WorkDir *string
 	}
 }
+
+var UsesPluralFolderNames bool

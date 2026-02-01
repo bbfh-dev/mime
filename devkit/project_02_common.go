@@ -3,6 +3,7 @@ package devkit
 import (
 	"os"
 	"path/filepath"
+	"strings"
 
 	liberrors "github.com/bbfh-dev/lib-errors"
 	"github.com/bbfh-dev/mime/cli"
@@ -57,6 +58,16 @@ func (project *Project) copyPackDirs(
 					errs.Go(func() error {
 						return cp.Copy(path, filepath.Join(out_folder, path))
 					})
+					if cli.UsesPluralFolderNames {
+						name := folder_entry.Name()
+						if !strings.HasSuffix(name, "s") {
+							name = name + "s"
+						}
+						new_path := filepath.Join(folder, data_entry.Name(), name)
+						errs.Go(func() error {
+							return cp.Copy(path, filepath.Join(out_folder, new_path))
+						})
+					}
 				}
 			}
 		}

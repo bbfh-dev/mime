@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 	"time"
 
 	liberrors "github.com/bbfh-dev/lib-errors"
@@ -59,12 +60,9 @@ func (project *Project) weld(dir, zip_name string) internal.AsyncTask {
 			return nil
 		}
 
-		cmd := exec.Command("weld", append([]string{
-			"--dir",
-			project.BuildDir,
-			"--name",
-			output_name,
-		}, entries...)...)
+		args := append([]string{"--dir", project.BuildDir, "--name", output_name}, entries...)
+		cli.LogDebug(1, "$ weld %s", strings.Join(args, " "))
+		cmd := exec.Command("weld", args...)
 
 		var out bytes.Buffer
 		cmd.Stdout = &out

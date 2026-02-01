@@ -65,51 +65,85 @@ There exist alternative long-established development kits such as [Beet](https:/
 Any mention of `./` will be replaced with the path to the current file as a resource.
 `../` can be used to reference the parent (only once).
 
+<table>
+<tr><td>📁 Input</td></tr>
+<tr><td>
+
 ```mcfunction
-# File: data/example/function/load.mcfunction
+# File: data/example/function/load.mcfunction                          
 function ./_my_nested_function
     # this would create an infinite loop
     function ../_my_nested_function
 ```
 
-> 📂 **Produces:**
->
-> ```mcfunction
-> # File: data/example/function/load.mcfunction
-> function example:load/_my_nested_function
-> ```
+</td></tr>
+</table>
+
+<table>
+<tr><td>📦️ Output</td></tr>
+<tr><td>
+
+```mcfunction
+# File: data/example/function/load.mcfunction                          
+function example:load/_my_nested_function
+```
+
+</td></tr>
+</table>
 
 ## 1.2 Nested functions
 
 Create nested functions by adding indentation (must be a tab or 4 spaces) to code, subsequent to a function call.
 
+<table>
+<tr><td>📁 Input</td></tr>
+<tr><td>
+
 ```mcfunction
-# File: data/example/function/test.mcfunction
+# File: data/example/function/test.mcfunction                          
 execute as @e run function ./_my_nested_function
     say 123
     kill @s
 ```
 
-> 📂 **Produces:**
->
-> ```mcfunction
-> # File: data/example/function/test.mcfunction
-> execute as @e run function example:test/_my_nested_function
-> ```
->
-> ```mcfunction
-> # File: data/example/function/test/_my_nested_function.mcfunction
-> say 123
-> kill @s
-> ```
+</td></tr>
+</table>
+
+<table>
+<tr><td>📦️ Output (1/2)</td></tr>
+<tr><td>
+
+```mcfunction
+# File: data/example/function/test.mcfunction                          
+execute as @e run function example:test/_my_nested_function
+```
+
+</td></tr>
+</table>
+
+<table>
+<tr><td>📦️ Output (2/2)</td></tr>
+<tr><td>
+
+```mcfunction
+# File: data/example/function/test/_my_nested_function.mcfunction      
+say 123
+kill @s
+```
+
+</td></tr>
+</table>
 
 ## 1.3 Mcmeta generation
 
 `pack.mcmeta` files for both data & resource packs are automatically generated with the appropriate format based on supported Minecraft versions.
 
-```jsonc
-// Local pack.mcmeta
-{
+<table>
+<tr><td>📁 Input</td></tr>
+<tr><td>
+
+```json
+{                                                 
     "pack": {
         "description": "This is my pack"
     },
@@ -124,27 +158,34 @@ execute as @e run function ./_my_nested_function
 }
 ```
 
-> 📂 **Produces:**
->
-> ```jsonc
-> // build/data_pack/pack.mcmeta
-> {
->     "pack": {
->         "description": "This is my pack",
->         "pack_format": 48,
->         "min_format": [48, 0],
->         "max_format": [94, 1]
->     },
->     "meta": {
->         "name": "example",
->         "minecraft": {
->             "min": "1.20",
->             "max": "1.21.1"
->         },
->         "version": "0.1.0-alpha"
->     }
-> }
-> ```
+</td></tr>
+</table>
+
+<table>
+<tr><td>📦️ Output</td></tr>
+<tr><td>
+
+```json
+{                                                 
+    "pack": {
+        "description": "This is my pack",
+        "pack_format": 48,
+        "min_format": [48, 0],
+        "max_format": [94, 1]
+    },
+    "meta": {
+        "name": "example",
+        "minecraft": {
+            "min": "1.20",
+            "max": "1.21.1"
+        },
+        "version": "0.1.0-alpha"
+    }
+}
+```
+
+</td></tr>
+</table>
 
 ### 1.3.1 Name
 

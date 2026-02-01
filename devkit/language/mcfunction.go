@@ -180,7 +180,7 @@ func (fn *Mcfunction) generate(tree map[string][]string, path string, line *Line
 		if len(nested_line.Nested) != 0 {
 			resource := nested_line.ExtractResource()
 			if resource == "" {
-				cli.LogDebug(1, "%s", line)
+				cli.LogDebug(1, "Context:\n%s", line)
 				return &liberrors.DetailedError{
 					Label: liberrors.ERR_SYNTAX,
 					// TODO: this context isn't much helpful

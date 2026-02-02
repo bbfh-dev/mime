@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	liberrors "github.com/bbfh-dev/lib-errors"
+	liblog "github.com/bbfh-dev/lib-log"
 	libparsex "github.com/bbfh-dev/lib-parsex/v3"
 	"github.com/bbfh-dev/mime/devkit/minecraft"
 )
@@ -37,7 +38,7 @@ var InitProgram = libparsex.Program{
 
 		mcmeta_body, err := os.ReadFile("pack.mcmeta")
 		if err != nil {
-			LogInfo(0, "Missing existing 'pack.mcmeta', so one will be created instead")
+			liblog.Info(0, "Missing existing 'pack.mcmeta', so one will be created instead")
 			mcmeta_body = []byte{}
 		}
 
@@ -60,7 +61,7 @@ var InitProgram = libparsex.Program{
 			return liberrors.NewIO(err, filepath.Join(work_dir, "pack.mcmeta"))
 		}
 
-		LogDone(
+		liblog.Done(
 			0,
 			"Saved 'pack.mcmeta' for name=%q version=%q minecraft=%q",
 			Init.Options.Name,

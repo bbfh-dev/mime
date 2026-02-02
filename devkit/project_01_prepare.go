@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 
 	liberrors "github.com/bbfh-dev/lib-errors"
+	liblog "github.com/bbfh-dev/lib-log"
 	"github.com/bbfh-dev/mime/cli"
 	"github.com/bbfh-dev/mime/devkit/internal"
 	"github.com/bbfh-dev/mime/devkit/language"
@@ -20,7 +21,7 @@ const (
 
 func (project *Project) LogHeader(header string) internal.Task {
 	return func() error {
-		cli.LogInfo(0, "%s", header)
+		liblog.Info(0, "%s", header)
 		return nil
 	}
 }
@@ -28,11 +29,11 @@ func (project *Project) LogHeader(header string) internal.Task {
 func (project *Project) DetectPackIcon() error {
 	_, err := os.Stat("pack.png")
 	if os.IsNotExist(err) {
-		cli.LogWarn(1, "No pack icon found")
+		liblog.Warn(1, "No pack icon found")
 		return nil
 	}
 
-	cli.LogInfo(1, "Found 'pack.png'")
+	liblog.Info(1, "Found 'pack.png'")
 	project.extraFilesToCopy = append(project.extraFilesToCopy, "pack.png")
 	return nil
 }
@@ -57,14 +58,14 @@ func (project *Project) CheckIfCached(value *bool, folder string) internal.Task 
 
 		info, err := os.Stat(zip_path)
 		if err != nil {
-			cli.LogWarn(1, "%q is missing. Caching is impossible", filepath.Base(zip_path))
+			liblog.Warn(1, "%q is missing. Caching is impossible", filepath.Base(zip_path))
 			return nil
 		}
 		zip_timestamp := info.ModTime()
 
 		if timestamp.Sub(zip_timestamp) < 0 {
 			*value = true
-			cli.LogCached(1, "%q is already up-to-date", filepath.Base(zip_path))
+			liblog.Cached(1, "%q is already up-to-date", filepath.Base(zip_path))
 		}
 
 		return nil
@@ -78,11 +79,11 @@ func (project *Project) LoadTemplates() error {
 
 	_, err := os.Stat("templates")
 	if os.IsNotExist(err) {
-		cli.LogDebug(1, "No templates found")
+		liblog.Debug(1, "No templates found")
 		return nil
 	}
 
-	cli.LogInfo(1, "Loading templates")
+	liblog.Info(1, "Loading templates")
 
 	entries, err := os.ReadDir("templates")
 	if err != nil {
@@ -115,7 +116,7 @@ func (project *Project) LoadTemplates() error {
 				return err
 			}
 			project.inlineTemplates[entry.Name()] = template
-			cli.LogDebug(2, "Loaded inline %q", entry.Name())
+			liblog.Debug(2, "Loaded inline %q", entry.Name())
 
 		case "generate":
 			template, err := language.NewGeneratorTemplate(dir, manifest)
@@ -123,7 +124,7 @@ func (project *Project) LoadTemplates() error {
 				return err
 			}
 			project.generatorTemplates[entry.Name()] = template
-			cli.LogDebug(2, "Loaded generator %q", entry.Name())
+			liblog.Debug(2, "Loaded generator %q", entry.Name())
 
 		default:
 			return &liberrors.DetailedError{

@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	liberrors "github.com/bbfh-dev/lib-errors"
-	"github.com/bbfh-dev/mime/cli"
+	liblog "github.com/bbfh-dev/lib-log"
 	"github.com/bbfh-dev/mime/devkit/internal"
 	"github.com/bbfh-dev/mime/devkit/language"
 	"golang.org/x/sync/errgroup"
@@ -20,19 +20,19 @@ func (project *Project) GenerateFromTemplates() error {
 	}
 
 	if len(project.generatorTemplates) == 0 {
-		cli.LogDebug(0, "No generator templates defined")
+		liblog.Debug(0, "No generator templates defined")
 		return nil
 	}
 
-	cli.LogInfo(0, "Generating code from %d template(s)", len(project.generatorTemplates))
+	liblog.Info(0, "Generating code from %d template(s)", len(project.generatorTemplates))
 
 	for template_name, template := range project.generatorTemplates {
-		cli.LogDebug(1, "Generating from %q", template_name)
+		liblog.Debug(1, "Generating from %q", template_name)
 		var errs errgroup.Group
 
 		for definition_name, definition := range template.Definitions {
 			errs.Go(func() error {
-				cli.LogDebug(2, "Begin processing %q", definition_name)
+				liblog.Debug(2, "Begin processing %q", definition_name)
 
 				root := filepath.Join("templates", template_name)
 				tree, err := internal.LoadTree(
@@ -80,7 +80,7 @@ func (project *Project) GenerateFromTemplates() error {
 					if err := project.saveFile(path, new_path, file); err != nil {
 						return err
 					}
-					cli.LogDebug(2, "Saved %q", new_path)
+					liblog.Debug(2, "Saved %q", new_path)
 				}
 
 				return nil
@@ -91,7 +91,7 @@ func (project *Project) GenerateFromTemplates() error {
 			return err
 		}
 
-		cli.LogDone(
+		liblog.Done(
 			1,
 			"Finished generating %q for %d definitions",
 			template_name,

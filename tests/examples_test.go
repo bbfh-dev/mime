@@ -5,6 +5,7 @@ import (
 	"path/filepath"
 	"testing"
 
+	liblog "github.com/bbfh-dev/lib-log"
 	"github.com/bbfh-dev/mime/cli"
 	"github.com/bbfh-dev/mime/devkit"
 	"github.com/bbfh-dev/mime/devkit/language"
@@ -35,7 +36,7 @@ func TestExamples(t *testing.T) {
 		assert.NilError(t, os.Chdir(work_dir))
 
 		t.Run(entry.Name(), func(t *testing.T) {
-			cli.Output = t.Output()
+			liblog.Output = t.Output()
 			cli.Main.Args.WorkDir = &path
 			err := devkit.Main([]string{path})
 			assert.NilError(t, err)

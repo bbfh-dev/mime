@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	liberrors "github.com/bbfh-dev/lib-errors"
+	liblog "github.com/bbfh-dev/lib-log"
 	"github.com/bbfh-dev/mime/cli"
 	"github.com/bbfh-dev/mime/devkit/internal"
 	"github.com/bbfh-dev/mime/devkit/minecraft"
@@ -54,7 +55,7 @@ func (project *Project) copyPackDirs(
 						*folders = append(*folders, path)
 					}
 				default:
-					cli.LogDebug(1, "Copying directory %q", path)
+					liblog.Debug(1, "Copying directory %q", path)
 					errs.Go(func() error {
 						return cp.Copy(path, filepath.Join(out_folder, path))
 					})
@@ -79,7 +80,7 @@ func (project *Project) copyPackDirs(
 func (project *Project) copyExtraFiles(dir string) internal.Task {
 	return func() error {
 		for _, file := range project.extraFilesToCopy {
-			cli.LogDebug(1, "Copying extra %q", file)
+			liblog.Debug(1, "Copying extra %q", file)
 			path := filepath.Join(dir, file)
 			err := cp.Copy(file, path)
 			if err != nil {
@@ -92,11 +93,11 @@ func (project *Project) copyExtraFiles(dir string) internal.Task {
 
 func (project *Project) createPackMcmeta(dir string, ft minecraft.PackFormats) internal.Task {
 	return func() error {
-		cli.LogInfo(1, "Exporting pack.mcmeta for %s", dir)
+		liblog.Info(1, "Exporting pack.mcmeta for %s", dir)
 		mcmeta := project.Meta.Clone()
 		mcmeta.FillVersion(ft)
 		if err := mcmeta.SaveVersion(); err != nil {
-			cli.LogWarn(1, "%s", err.Error())
+			liblog.Warn(1, "%s", err.Error())
 		}
 
 		path := filepath.Join(project.BuildDir, dir, "pack.mcmeta")

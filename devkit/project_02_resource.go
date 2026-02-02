@@ -4,7 +4,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/bbfh-dev/mime/cli"
+	liblog "github.com/bbfh-dev/lib-log"
 	"github.com/bbfh-dev/mime/devkit/internal"
 	"github.com/bbfh-dev/mime/devkit/minecraft"
 )
@@ -16,11 +16,11 @@ func (project *Project) GenerateResourcePack() error {
 
 	_, err := os.Stat(FOLDER_ASSETS)
 	if os.IsNotExist(err) {
-		cli.LogDebug(0, "No resource pack found")
+		liblog.Debug(0, "No resource pack found")
 		return nil
 	}
 
-	cli.LogInfo(0, "Creating a Resource Pack")
+	liblog.Info(0, "Creating a Resource Pack")
 	path := filepath.Join(project.BuildDir, "resource_pack")
 
 	return internal.Pipeline(

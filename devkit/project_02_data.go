@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	liberrors "github.com/bbfh-dev/lib-errors"
-	"github.com/bbfh-dev/mime/cli"
+	liblog "github.com/bbfh-dev/lib-log"
 	"github.com/bbfh-dev/mime/devkit/internal"
 	"github.com/bbfh-dev/mime/devkit/language"
 	"github.com/bbfh-dev/mime/devkit/minecraft"
@@ -22,11 +22,11 @@ func (project *Project) GenerateDataPack() error {
 
 	_, err := os.Stat(FOLDER_DATA)
 	if os.IsNotExist(err) {
-		cli.LogDebug(0, "No data pack found")
+		liblog.Debug(0, "No data pack found")
 		return nil
 	}
 
-	cli.LogInfo(0, "Creating a Data Pack")
+	liblog.Info(0, "Creating a Data Pack")
 	path := filepath.Join(project.BuildDir, "data_pack")
 
 	var funcFoldersToParse = []string{}

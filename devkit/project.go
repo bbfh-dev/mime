@@ -1,7 +1,7 @@
 package devkit
 
 import (
-	libescapes "github.com/bbfh-dev/lib-ansi-escapes"
+	liblog "github.com/bbfh-dev/lib-log"
 	"github.com/bbfh-dev/mime/cli"
 	"github.com/bbfh-dev/mime/devkit/internal"
 	"github.com/bbfh-dev/mime/devkit/language"
@@ -35,11 +35,11 @@ func New(mcmeta *minecraft.PackMcmeta) *Project {
 }
 
 func (project *Project) Build() error {
-	cli.LogInfo(
+	liblog.Info(
 		0,
 		"Building %s for Minecraft %s",
-		cli.ColorWord("v"+project.Meta.Version().String(), libescapes.TextColorBrightMagenta),
-		cli.ColorWord(project.Meta.MinecraftFormatted(), libescapes.TextColorBrightBlue),
+		"v"+project.Meta.Version().String(),
+		project.Meta.MinecraftFormatted(),
 	)
 
 	return internal.Pipeline(

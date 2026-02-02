@@ -11,7 +11,7 @@ import (
 	"sync"
 
 	liberrors "github.com/bbfh-dev/lib-errors"
-	"github.com/bbfh-dev/mime/cli"
+	liblog "github.com/bbfh-dev/lib-log"
 	"github.com/bbfh-dev/mime/devkit/internal"
 	"github.com/tidwall/gjson"
 	"golang.org/x/sync/errgroup"
@@ -80,7 +80,7 @@ func NewGeneratorTemplate(root string, manifest *internal.JsonFile) (*GeneratorT
 	dir := filepath.Join(root, "definitions")
 	entries, err := os.ReadDir(dir)
 	if err != nil {
-		cli.LogWarn(2, "%q has no definitions", root)
+		liblog.Warn(2, "%q has no definitions", root)
 		return nil, nil
 	}
 

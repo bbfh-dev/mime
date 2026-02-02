@@ -11,7 +11,7 @@ import (
 	"time"
 
 	liberrors "github.com/bbfh-dev/lib-errors"
-	"github.com/bbfh-dev/mime/cli"
+	liblog "github.com/bbfh-dev/lib-log"
 	"github.com/bbfh-dev/mime/devkit/internal"
 	cp "github.com/otiai10/copy"
 	"golang.org/x/sync/errgroup"
@@ -24,11 +24,11 @@ func (project *Project) WeldPacks() error {
 
 	_, err := os.Stat("libs")
 	if os.IsNotExist(err) {
-		cli.LogDebug(0, "No libraries found")
+		liblog.Debug(0, "No libraries found")
 		return nil
 	}
 
-	cli.LogInfo(0, "Merging with Smithed Weld")
+	liblog.Info(0, "Merging with Smithed Weld")
 	return internal.Pipeline(
 		internal.Async(
 			internal.If(
@@ -56,12 +56,12 @@ func (project *Project) weld(dir, zip_name string) internal.AsyncTask {
 		entries[len(entries)-1] = zip_name
 
 		if len(entries) < 2 {
-			cli.LogDebug(1, "No libraries found for %q. Skipping...", dir)
+			liblog.Debug(1, "No libraries found for %q. Skipping...", dir)
 			return nil
 		}
 
 		args := append([]string{"--dir", project.BuildDir, "--name", output_name}, entries...)
-		cli.LogDebug(1, "$ weld %s", strings.Join(args, " "))
+		liblog.Debug(1, "$ weld %s", strings.Join(args, " "))
 		cmd := exec.Command("weld", args...)
 
 		var out bytes.Buffer
@@ -82,7 +82,7 @@ func (project *Project) weld(dir, zip_name string) internal.AsyncTask {
 			return liberrors.NewIO(err, path)
 		}
 
-		cli.LogDone(1, "Merged %q in %s", zip_name, time.Since(start))
+		liblog.Done(1, "Merged %q in %s", zip_name, time.Since(start))
 		return nil
 	}
 }

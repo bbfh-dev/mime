@@ -6,6 +6,7 @@ import (
 	"time"
 
 	liberrors "github.com/bbfh-dev/lib-errors"
+	liblog "github.com/bbfh-dev/lib-log"
 	"github.com/bbfh-dev/mime/cli"
 	"github.com/bbfh-dev/mime/devkit/minecraft"
 )
@@ -41,6 +42,6 @@ func Main(raw_args []string) error {
 		return err
 	}
 
-	cli.LogDone(0, "Finished building in %s", time.Since(start))
+	liblog.Done(0, "Finished building in %s", time.Since(start))
 	return nil
 }

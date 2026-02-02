@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 
 	liberrors "github.com/bbfh-dev/lib-errors"
-	"github.com/bbfh-dev/mime/cli"
+	liblog "github.com/bbfh-dev/lib-log"
 )
 
 func (project *Project) ZipPacks() error {
@@ -15,7 +15,7 @@ func (project *Project) ZipPacks() error {
 		return nil
 	}
 
-	cli.LogInfo(0, "Creating .zip files")
+	liblog.Info(0, "Creating .zip files")
 	if !project.isDataCached {
 		if err := project.zip("data_pack"); err != nil {
 			return err
@@ -35,7 +35,7 @@ func (project *Project) zip(folder string) error {
 	folder_path := filepath.Join(project.BuildDir, folder)
 	root, err := os.OpenRoot(folder_path)
 	if err != nil {
-		cli.LogDebug(1, "Skipping %q: %s", folder, err.Error())
+		liblog.Debug(1, "Skipping %q: %s", folder, err.Error())
 		return nil
 	}
 
@@ -53,7 +53,7 @@ func (project *Project) zip(folder string) error {
 		return liberrors.NewIO(err, folder_path)
 	}
 
-	cli.LogDone(1, "Created %q", zip_path)
+	liblog.Done(1, "Created %q", zip_path)
 	return nil
 }
 

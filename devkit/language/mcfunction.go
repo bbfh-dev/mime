@@ -136,7 +136,7 @@ func (fn *Mcfunction) parse(
 			line.Write(&stdin, 4)
 		}
 
-		liblog.Debug(1, "$ %s %s", name, strings.Join(args, " "))
+		liblog.Debug(2, "$ %s %s", name, strings.Join(args, " "))
 		err := template.Call(&stdout, &stdin, args)
 		if err != nil {
 			return &liberrors.DetailedError{

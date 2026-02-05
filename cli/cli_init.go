@@ -8,7 +8,7 @@ import (
 	liberrors "github.com/bbfh-dev/lib-errors"
 	liblog "github.com/bbfh-dev/lib-log"
 	libparsex "github.com/bbfh-dev/lib-parsex/v3"
-	"github.com/bbfh-dev/mime/devkit/minecraft"
+	"github.com/bbfh-dev/vintage/devkit/minecraft"
 )
 
 var Init struct {
@@ -25,7 +25,7 @@ var Init struct {
 
 var InitProgram = libparsex.Program{
 	Name:        "init",
-	Description: "Initialize a new Mime project",
+	Description: "Initialize a new Vintage project",
 	Options:     &Init.Options,
 	Args:        &Init.Args,
 	Commands:    []*libparsex.Program{},

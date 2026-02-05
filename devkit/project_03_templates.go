@@ -9,8 +9,8 @@ import (
 
 	liberrors "github.com/bbfh-dev/lib-errors"
 	liblog "github.com/bbfh-dev/lib-log"
-	"github.com/bbfh-dev/mime/devkit/internal"
-	"github.com/bbfh-dev/mime/devkit/language"
+	"github.com/bbfh-dev/vintage/devkit/internal"
+	"github.com/bbfh-dev/vintage/devkit/language"
 	"golang.org/x/sync/errgroup"
 )
 

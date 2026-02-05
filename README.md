@@ -1,8 +1,8 @@
-# 📦️ Mime
+# 📀 Vintage
 
 Minecraft data-driven vanilla data & resource pack development kit powered by pre-processors and generators with minimum boilerplate and setup.
 
-> Mime uses <q>simple by default, powerful when needed</q> philosophy.
+> Vintage uses <q>simple by default, powerful when needed</q> philosophy.
 
 > [!CAUTION]
 > If you are using Windows (god bless your soul), the behavior of [executable inline templates](#1422-executable-inline-template) is undefined/untested.
@@ -56,10 +56,10 @@ Minecraft data-driven vanilla data & resource pack development kit powered by pr
 
 There exist alternative long-established development kits such as [Beet](https://github.com/mcbeet/beet). **So why does this project exist?**
 
-1. Mime **doesn't force you** to use a specific scripting language (e.g., Python or JavaScript);
-2. Mime **is lightweight**. A project is just `pack.mcmeta` metadata, no environment setups are required.
-3. Mime **is simple**. Any generated files are defined separately as [templates](#14-templates), functions still use `mcfunction` with the addition of [sugar-code](#1-features).
-4. Mime **is a statically-linked binary**. That means it's portable and performant.
+1. Vintage **doesn't force you** to use a specific scripting language (e.g., Python or JavaScript);
+2. Vintage **is lightweight**. A project is just `pack.mcmeta` metadata, no environment setups are required.
+3. Vintage **is simple**. Any generated files are defined separately as [templates](#14-templates), functions still use `mcfunction` with the addition of [sugar-code](#1-features).
+4. Vintage **is a statically-linked binary**. That means it's portable and performant.
 
 # 1 Features
 
@@ -276,7 +276,7 @@ Allow you to add new syntax to `mcfunction` files.
 ```jsonc
 // manifest.json
 {
-    "$schema": "https://bbfh.me/mime/manifest/schema.json",
+    "$schema": "https://bbfh.me/vintage/manifest_schema.json",
     "type": "inline",
     // (Example) requires 3 positional arguments.
     "arguments": [
@@ -341,7 +341,7 @@ As the name suggests, they generate files from a user-defined list of items.
 ```jsonc
 // manifest.json
 {
-    "$schema": "https://bbfh.me/mime/manifest/schema.json",
+    "$schema": "https://bbfh.me/vintage/manifest_schema.json",
     "type": "generator",
     // (Example) define 2 iterators
     "iterators": {
@@ -417,24 +417,24 @@ The definition file will be substituted with the current iterator value.
 
 ### 2.1.1 Pre-built binaries
 
-1. Download the [latest release](https://github.com/bbfh-dev/mime/releases/latest) for your OS and architecture.
+1. Download the [latest release](https://github.com/bbfh-dev/vintage/releases/latest) for your OS and architecture.
 2. Put it into a directory listed in your `$PATH`;
 
 ### 2.1.2 Using Go CLI
 
 1. Assuming you have [Go](https://go.dev/) installed;
-2. Run `go install github.com/bbfh-dev/mime@latest`
+2. Run `go install github.com/bbfh-dev/vintage@latest`
 
 ## 2.2 Usage
 
 ### 2.2.1 Init
 
-This utility is used to initialize a new Mime project or convert an existing data/resource pack into the appropriate format.
+This utility is used to initialize a new Vintage project or convert an existing data/resource pack into the appropriate format.
 
-Under the hood, it simply writes fields to `pack.mcmeta`, as this is the only requirement for Mime.
+Under the hood, it simply writes fields to `pack.mcmeta`, as this is the only requirement for Vintage.
 
 ```
-Initialize a new Mime project
+Initialize a new Vintage project
 
 [?] Usage:
     init [options...] <work-dir?>
@@ -455,7 +455,7 @@ Initialize a new Mime project
 Example usage:
 ```bash
 # Note that all of the flags are optional
-$ mime init ./examples/01_basic --name=untitled --pack-version=1.0.0 --minecraft=1.21.11 --description "Hello World!"
+$ vintage init ./examples/01_basic --name=untitled --pack-version=1.0.0 --minecraft=1.21.11 --description "Hello World!"
 ```
 
 ### 2.2.2 Main
@@ -464,11 +464,11 @@ $ mime init ./examples/01_basic --name=untitled --pack-version=1.0.0 --minecraft
 Minecraft data-driven vanilla data & resource pack development kit powered by pre-processors and generators
 
 [?] Usage:
-    mime [options...] <work-dir?>
+    vintage [options...] <work-dir?>
 
 [>] Commands:
     init
-        # Initialize a new Mime project
+        # Initialize a new Vintage project
 
 [#] Options:
     --help
@@ -487,12 +487,12 @@ Minecraft data-driven vanilla data & resource pack development kit powered by pr
 
 Example usage:
 ```bash
-$ mime -o /tmp/mime-build --zip --debug ./examples/02_templates
+$ vintage -o /tmp/vintage-build --zip --debug ./examples/02_templates
 ```
 
 # 3 Developer notes
 
-- [ ] Refactor template code, because it's scattered around internal, language and mime.
+- [ ] Refactor template code, because it's scattered around internal, language and vintage.
 - [ ] Add support for `NO_COLOR` and `TERM=dumb` environment variables. Use `"golang.org/x/term" term.IsTerminal(int(os.Stdout.Fd()))`
 
 ## 3.1 Generate for multiple versions

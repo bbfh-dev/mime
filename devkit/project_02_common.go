@@ -7,9 +7,9 @@ import (
 
 	liberrors "github.com/bbfh-dev/lib-errors"
 	liblog "github.com/bbfh-dev/lib-log"
-	"github.com/bbfh-dev/mime/cli"
-	"github.com/bbfh-dev/mime/devkit/internal"
-	"github.com/bbfh-dev/mime/devkit/minecraft"
+	"github.com/bbfh-dev/vintage/cli"
+	"github.com/bbfh-dev/vintage/devkit/internal"
+	"github.com/bbfh-dev/vintage/devkit/minecraft"
 	cp "github.com/otiai10/copy"
 	"golang.org/x/sync/errgroup"
 )

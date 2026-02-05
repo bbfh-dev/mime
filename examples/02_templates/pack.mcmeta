@@ -2,6 +2,17 @@
 	"meta": {
 		"name": "untitled",
 		"minecraft": "1.21.11",
-		"version": "1.2.3"
+		"version": "1.2.3",
+		"dependencies": [
+			{
+				"namespace": "bs.*",
+				"data_pack": "https://github.com/mcbookshelf/bookshelf/releases/download/v3.2.2/%[namespace]-1.21.11-v3.2.2.zip"
+			},
+			{
+				"namespace": "bbln",
+				"data_pack": "https://github.com/bbfh-dev/bubblellaneous-pack/releases/download/v2.2.1/bubblellaneous_2-2-1_data_pack.zip",
+				"resource_pack": "https://github.com/bbfh-dev/bubblellaneous-pack/releases/download/v2.2.1/bubblellaneous_2-2-1_data_pack.zip"
+			}
+		]
 	}
 }

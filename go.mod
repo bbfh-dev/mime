@@ -1,4 +1,4 @@
-module github.com/bbfh-dev/mime
+module github.com/bbfh-dev/vintage
 
 go 1.25.6
 

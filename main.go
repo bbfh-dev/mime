@@ -6,14 +6,14 @@ import (
 
 	liberrors "github.com/bbfh-dev/lib-errors"
 	libparsex "github.com/bbfh-dev/lib-parsex/v3"
-	"github.com/bbfh-dev/mime/cli"
-	"github.com/bbfh-dev/mime/devkit"
+	"github.com/bbfh-dev/vintage/cli"
+	"github.com/bbfh-dev/vintage/devkit"
 )
 
 var Version = getVersion()
 
 var MainProgram = libparsex.Program{
-	Name:        "mime",
+	Name:        "vintage",
 	Version:     Version,
 	Description: "Minecraft data-driven vanilla data & resource pack development kit powered by pre-processors and generators with minimum boilerplate and setup",
 	Options:     &cli.Main.Options,

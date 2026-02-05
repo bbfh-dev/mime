@@ -10,8 +10,8 @@ import (
 
 	liberrors "github.com/bbfh-dev/lib-errors"
 	liblog "github.com/bbfh-dev/lib-log"
-	"github.com/bbfh-dev/mime/cli"
-	"github.com/bbfh-dev/mime/devkit/internal"
+	"github.com/bbfh-dev/vintage/cli"
+	"github.com/bbfh-dev/vintage/devkit/internal"
 )
 
 type Mcfunction struct {

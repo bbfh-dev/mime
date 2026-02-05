@@ -5,8 +5,8 @@ import (
 	"path/filepath"
 
 	liblog "github.com/bbfh-dev/lib-log"
-	"github.com/bbfh-dev/mime/devkit/internal"
-	"github.com/bbfh-dev/mime/devkit/minecraft"
+	"github.com/bbfh-dev/vintage/devkit/internal"
+	"github.com/bbfh-dev/vintage/devkit/minecraft"
 )
 
 func (project *Project) GenerateResourcePack() error {

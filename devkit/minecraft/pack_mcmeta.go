@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/bbfh-dev/mime/devkit/internal"
+	"github.com/bbfh-dev/vintage/devkit/internal"
 	"github.com/tidwall/gjson"
 )
 
@@ -26,7 +26,7 @@ func (mcmeta *PackMcmeta) Clone() *PackMcmeta {
 	return NewPackMcmeta(mcmeta.File.Body)
 }
 
-// Checks whether all fields required by Mime are present
+// Checks whether all fields required by Vintage are present
 func (mcmeta *PackMcmeta) Validate() error {
 	return errors.Join(
 		mcmeta.File.ExpectField("meta.name", gjson.String),

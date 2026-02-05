@@ -1,5 +1,5 @@
 {
-	"$schema": "https://bbfh.me/mime/manifest/schema.json",
+	"$schema": "https://bbfh.me/vintage/manifest_schema.json",
 	"type": "generate",
 	"iterators": {
 		"material": [

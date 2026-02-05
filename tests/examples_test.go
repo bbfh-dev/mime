@@ -1,4 +1,4 @@
-package mime_test
+package vintage_test
 
 import (
 	"os"
@@ -6,9 +6,9 @@ import (
 	"testing"
 
 	liblog "github.com/bbfh-dev/lib-log"
-	"github.com/bbfh-dev/mime/cli"
-	"github.com/bbfh-dev/mime/devkit"
-	"github.com/bbfh-dev/mime/devkit/language"
+	"github.com/bbfh-dev/vintage/cli"
+	"github.com/bbfh-dev/vintage/devkit"
+	"github.com/bbfh-dev/vintage/devkit/language"
 	"gotest.tools/assert"
 )
 
@@ -25,7 +25,7 @@ func TestExamples(t *testing.T) {
 	cli.Main.Options.Debug = testing.Verbose()
 	liblog.LogLevel = liblog.LEVEL_DEBUG
 	cli.Main.Options.Force = true
-	cli.Main.Options.Output = filepath.Join(os.TempDir(), "mime-test")
+	cli.Main.Options.Output = filepath.Join(os.TempDir(), "vintage-test")
 	cli.Main.Options.Zip = true
 
 	for _, entry := range entries {

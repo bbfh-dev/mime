@@ -2,12 +2,12 @@ package devkit
 
 import (
 	"os"
-	"path/filepath"
 	"time"
 
 	liberrors "github.com/bbfh-dev/lib-errors"
 	liblog "github.com/bbfh-dev/lib-log"
 	"github.com/bbfh-dev/vintage/cli"
+	"github.com/bbfh-dev/vintage/devkit/internal"
 	"github.com/bbfh-dev/vintage/devkit/minecraft"
 )
 
@@ -33,10 +33,9 @@ func Build(raw_args []string) error {
 
 	mcmeta := minecraft.NewPackMcmeta(mcmeta_body)
 	if err := mcmeta.Validate(); err != nil {
-		path, _ := filepath.Abs("pack.mcmeta")
 		return &liberrors.DetailedError{
 			Label:   liberrors.ERR_VALIDATE,
-			Context: liberrors.DirContext{Path: path},
+			Context: liberrors.DirContext{Path: internal.ToAbs("pack.mcmeta")},
 			Details: err.Error(),
 		}
 	}

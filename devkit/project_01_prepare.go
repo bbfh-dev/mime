@@ -39,7 +39,7 @@ func (project *Project) DetectPackIcon() error {
 }
 
 func (project *Project) CheckIfCached(value *bool, folder string) internal.Task {
-	if cli.Main.Options.Force {
+	if cli.Build.Options.Force {
 		return nil
 	}
 	var libs_folder, zip_path string

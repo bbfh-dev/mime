@@ -11,10 +11,10 @@ import (
 	"github.com/bbfh-dev/vintage/devkit/minecraft"
 )
 
-func Main(raw_args []string) error {
-	if cli.Main.Args.WorkDir != nil {
-		if err := os.Chdir(*cli.Main.Args.WorkDir); err != nil {
-			return liberrors.NewIO(err, *cli.Main.Args.WorkDir)
+func Build(raw_args []string) error {
+	if cli.Build.Args.WorkDir != nil {
+		if err := os.Chdir(*cli.Build.Args.WorkDir); err != nil {
+			return liberrors.NewIO(err, *cli.Build.Args.WorkDir)
 		}
 	}
 

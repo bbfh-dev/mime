@@ -20,8 +20,20 @@ var MainProgram = libparsex.Program{
 	Args:        &cli.Main.Args,
 	Commands: []*libparsex.Program{
 		&cli.InitProgram,
+		&BuildProgram,
 	},
-	EntryPoint: devkit.Main,
+	EntryPoint: func(rawArgs []string) error {
+		return libparsex.PrintHelpErr
+	},
+}
+
+var BuildProgram = libparsex.Program{
+	Name:        "build",
+	Description: "Build the data & resource packs",
+	Options:     &cli.Build.Options,
+	Args:        &cli.Build.Args,
+	Commands:    []*libparsex.Program{},
+	EntryPoint:  devkit.Build,
 }
 
 func main() {

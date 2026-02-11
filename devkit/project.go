@@ -23,7 +23,7 @@ type Project struct {
 func New(mcmeta *minecraft.PackMcmeta) *Project {
 	return &Project{
 		Meta:     mcmeta,
-		BuildDir: cli.Main.Options.Output,
+		BuildDir: cli.Build.Options.Output,
 
 		extraFilesToCopy: []string{},
 		isDataCached:     false,
@@ -52,7 +52,7 @@ func (project *Project) Build() error {
 		project.GenerateResourcePack,
 		project.GenerateFromTemplates,
 		project.writeMcfunctions,
-		internal.If[internal.Task](cli.Main.Options.Zip, project.ZipPacks),
-		internal.If[internal.Task](cli.Main.Options.Zip, project.WeldPacks),
+		internal.If[internal.Task](cli.Build.Options.Zip, project.ZipPacks),
+		internal.If[internal.Task](cli.Build.Options.Zip, project.WeldPacks),
 	)
 }

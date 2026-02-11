@@ -30,10 +30,8 @@ var InitProgram = libparsex.Program{
 	Args:        &Init.Args,
 	Commands:    []*libparsex.Program{},
 	EntryPoint: func(raw_args []string) error {
-		if Init.Args.WorkDir != nil {
-			if err := os.Chdir(*Init.Args.WorkDir); err != nil {
-				return liberrors.NewIO(err, *Init.Args.WorkDir)
-			}
+		if err := ApplyWorkDir(Init.Args.WorkDir); err != nil {
+			return err
 		}
 
 		if Main.Options.Debug {

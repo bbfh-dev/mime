@@ -49,11 +49,17 @@ func (project *Project) weld(dir, zip_name string) internal.AsyncTask {
 		output_name := fmt.Sprintf("weld-%s.zip", dir)
 
 		path := filepath.Join("libs", dir)
+
+		if _, err := os.Stat(path); os.IsNotExist(err) {
+			liblog.Debug(1, "%q does not exist. Skipping...", dir)
+			return nil
+		}
+
 		entries, err := readLibDir(path)
 		if err != nil {
 			return err
 		}
-		entries[len(entries)-1] = zip_name
+		entries = append(entries, zip_name)
 
 		if len(entries) < 2 {
 			liblog.Debug(1, "No libraries found for %q. Skipping...", dir)
@@ -93,9 +99,11 @@ func readLibDir(dir string) ([]string, error) {
 		return nil, liberrors.NewIO(err, internal.ToAbs("libs"))
 	}
 
-	files := make([]string, len(entries)+1)
-	for i, entry := range entries {
-		files[i] = filepath.Join(dir, entry.Name())
+	files := make([]string, 0, len(entries)+1)
+	for _, entry := range entries {
+		if filepath.Ext(entry.Name()) == ".zip" {
+			files = append(files, filepath.Join(dir, entry.Name()))
+		}
 	}
 
 	return files, nil

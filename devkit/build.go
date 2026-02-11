@@ -18,7 +18,10 @@ func Build(raw_args []string) error {
 		}
 	}
 
-	if cli.Main.Options.Debug {
+	// Sync DEBUG
+	if cli.Main.Options.Debug || cli.Build.Options.Debug {
+		cli.Main.Options.Debug = true
+		cli.Build.Options.Debug = true
 		liblog.LogLevel = liblog.LEVEL_DEBUG
 	}
 

@@ -21,11 +21,17 @@ func Pipeline(tasks ...Task) error {
 	return nil
 }
 
-func If[T Task | AsyncTask](condition bool, then T) T {
-	if condition {
+type conditional[T Task | AsyncTask] bool
+
+func (conditional conditional[T]) Then(then T) T {
+	if conditional {
 		return then
 	}
 	return nil
+}
+
+func If[T Task | AsyncTask](condition bool) conditional[T] {
+	return conditional[T](condition)
 }
 
 // ————————————————————————————————

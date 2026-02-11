@@ -31,14 +31,16 @@ func (project *Project) WeldPacks() error {
 	liblog.Info(0, "Merging with Smithed Weld")
 	return internal.Pipeline(
 		internal.Async(
-			internal.If(
-				!project.isDataCached,
-				project.weld("data_packs", project.getZipPath("DP")),
-			),
-			internal.If(
-				!project.isAssetsCached,
-				project.weld("resource_packs", project.getZipPath("RP")),
-			),
+			internal.
+				If[internal.AsyncTask](!project.isDataCached).
+				Then(
+					project.weld("data_packs", project.getZipPath("DP")),
+				),
+			internal.
+				If[internal.AsyncTask](!project.isAssetsCached).
+				Then(
+					project.weld("resource_packs", project.getZipPath("RP")),
+				),
 		),
 	)
 }

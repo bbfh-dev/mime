@@ -52,7 +52,11 @@ func (project *Project) Build() error {
 		project.GenerateResourcePack,
 		project.GenerateFromTemplates,
 		project.writeMcfunctions,
-		internal.If[internal.Task](cli.Build.Options.Zip, project.ZipPacks),
-		internal.If[internal.Task](cli.Build.Options.Zip, project.WeldPacks),
+		internal.
+			If[internal.Task](cli.Build.Options.Zip).
+			Then(project.ZipPacks),
+		internal.
+			If[internal.Task](cli.Build.Options.Zip).
+			Then(project.WeldPacks),
 	)
 }

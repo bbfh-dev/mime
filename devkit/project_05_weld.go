@@ -33,13 +33,9 @@ func (project *Project) WeldPacks() error {
 	return pipeline.New(
 		pipeline.Async(
 			pipeline.If[pipeline.AsyncTask](!project.isDataCached).
-				Then(
-					project.weld("data_packs", project.getZipPath("DP")),
-				),
+				Then(project.weld("data_packs", project.getZipPath("DP"))),
 			pipeline.If[pipeline.AsyncTask](!project.isAssetsCached).
-				Then(
-					project.weld("resource_packs", project.getZipPath("RP")),
-				),
+				Then(project.weld("resource_packs", project.getZipPath("RP"))),
 		),
 	)
 }

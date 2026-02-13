@@ -1,7 +1,6 @@
 package devkit
 
 import (
-	"bufio"
 	"io/fs"
 	"os"
 	"path/filepath"
@@ -69,9 +68,11 @@ func (project *Project) parseFunction(path string) error {
 	}
 	defer file.Close()
 
-	scanner := bufio.NewScanner(file)
-	function := language.NewMcfunction(path, scanner)
-	return function.BuildTree().ParseAndSave(project.inlineTemplates)
+	// TODO: this
+	// scanner := bufio.NewScanner(file)
+	// function := language.NewMcfunction(path, scanner)
+	// return function.BuildTree().ParseAndSave(project.inlineTemplates)
+	return nil
 }
 
 func (project *Project) writeMcfunctions() error {

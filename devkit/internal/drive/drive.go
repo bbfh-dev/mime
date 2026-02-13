@@ -5,6 +5,8 @@ import (
 	"os"
 	"path/filepath"
 	"time"
+
+	liblog "github.com/bbfh-dev/lib-log"
 )
 
 func GetMostRecentIn(dirs ...string) time.Time {
@@ -47,7 +49,11 @@ func ToAbs(path string) string {
 func IterateDirsOnly(entries []os.DirEntry) func(func(os.DirEntry) bool) {
 	return func(yield func(os.DirEntry) bool) {
 		for _, entry := range entries {
-			if entry.IsDir() && !yield(entry) {
+			if !entry.IsDir() {
+				liblog.Debug(2, "Skipping file %q", entry.Name())
+				continue
+			}
+			if !yield(entry) {
 				return
 			}
 		}
@@ -57,7 +63,11 @@ func IterateDirsOnly(entries []os.DirEntry) func(func(os.DirEntry) bool) {
 func IterateFilesOnly(entries []os.DirEntry) func(func(os.DirEntry) bool) {
 	return func(yield func(os.DirEntry) bool) {
 		for _, entry := range entries {
-			if !entry.IsDir() && !yield(entry) {
+			if entry.IsDir() {
+				liblog.Debug(2, "Skipping dir %q", entry.Name())
+				continue
+			}
+			if !yield(entry) {
 				return
 			}
 		}

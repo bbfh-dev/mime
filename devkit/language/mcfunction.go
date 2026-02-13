@@ -12,6 +12,7 @@ import (
 	liblog "github.com/bbfh-dev/lib-log"
 	"github.com/bbfh-dev/vintage/cli"
 	"github.com/bbfh-dev/vintage/devkit/internal"
+	"github.com/bbfh-dev/vintage/devkit/internal/templates"
 )
 
 type Mcfunction struct {
@@ -66,7 +67,7 @@ func (fn *Mcfunction) BuildTree() *Mcfunction {
 	return fn
 }
 
-func (fn *Mcfunction) Parse(templates map[string]*InlineTemplate) ([]string, error) {
+func (fn *Mcfunction) Parse(templates map[string]*templates.InlineTemplate) ([]string, error) {
 	out := make([]string, 0, len(fn.root.Nested))
 
 	err := fn.parse(templates, &out, fn.root, 0)
@@ -78,7 +79,7 @@ func (fn *Mcfunction) Parse(templates map[string]*InlineTemplate) ([]string, err
 }
 
 func (fn *Mcfunction) parse(
-	templates map[string]*InlineTemplate,
+	templates map[string]*templates.InlineTemplate,
 	out *[]string,
 	root *Line,
 	indent int,
@@ -201,7 +202,7 @@ func (fn *Mcfunction) generate(tree map[string][]string, parent, path string, li
 	return nil
 }
 
-func (fn *Mcfunction) ParseAndSave(templates map[string]*InlineTemplate) error {
+func (fn *Mcfunction) ParseAndSave(templates map[string]*templates.InlineTemplate) error {
 	lines, err := fn.Parse(templates)
 	if err != nil {
 		return err

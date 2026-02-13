@@ -10,7 +10,7 @@ import (
 	"github.com/bbfh-dev/vintage/cli"
 	"github.com/bbfh-dev/vintage/devkit/internal/drive"
 	"github.com/bbfh-dev/vintage/devkit/internal/pipeline"
-	"github.com/bbfh-dev/vintage/devkit/language"
+	"github.com/bbfh-dev/vintage/devkit/internal/templates"
 	"github.com/tidwall/gjson"
 )
 
@@ -114,20 +114,22 @@ func (project *Project) LoadTemplates() error {
 		switch template_type {
 
 		case "inline":
-			template, err := language.NewInlineTemplate(dir, manifest)
-			if err != nil {
-				return err
+			template, derr := templates.NewInlineTemplate(dir, manifest)
+			if derr != nil {
+				return derr
 			}
 			project.inlineTemplates[entry.Name()] = template
-			liblog.Debug(2, "Loaded inline %q", entry.Name())
+			liblog.Debug(2, "Loaded inline:%s", entry.Name())
 
-		case "generate":
-			template, err := language.NewGeneratorTemplate(dir, manifest)
-			if err != nil {
-				return err
+		case "generator":
+			template, derr := templates.NewGeneratorTemplate(dir, manifest)
+			if derr != nil {
+				return derr
 			}
 			project.generatorTemplates[entry.Name()] = template
-			liblog.Debug(2, "Loaded generator %q", entry.Name())
+			liblog.Debug(2, "Loaded generator:%s", entry.Name())
+
+		case "collector":
 
 		default:
 			return &liberrors.DetailedError{

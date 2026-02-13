@@ -4,7 +4,7 @@ import (
 	liblog "github.com/bbfh-dev/lib-log"
 	"github.com/bbfh-dev/vintage/cli"
 	"github.com/bbfh-dev/vintage/devkit/internal/pipeline"
-	"github.com/bbfh-dev/vintage/devkit/language"
+	"github.com/bbfh-dev/vintage/devkit/internal/templates"
 	"github.com/bbfh-dev/vintage/devkit/minecraft"
 )
 
@@ -16,8 +16,8 @@ type Project struct {
 	isDataCached     bool
 	isAssetsCached   bool
 
-	generatorTemplates map[string]*language.GeneratorTemplate
-	inlineTemplates    map[string]*language.InlineTemplate
+	generatorTemplates map[string]*templates.GeneratorTemplate
+	inlineTemplates    map[string]*templates.InlineTemplate
 }
 
 func New(mcmeta *minecraft.PackMcmeta) *Project {
@@ -29,8 +29,8 @@ func New(mcmeta *minecraft.PackMcmeta) *Project {
 		isDataCached:     false,
 		isAssetsCached:   false,
 
-		generatorTemplates: map[string]*language.GeneratorTemplate{},
-		inlineTemplates:    map[string]*language.InlineTemplate{},
+		generatorTemplates: map[string]*templates.GeneratorTemplate{},
+		inlineTemplates:    map[string]*templates.InlineTemplate{},
 	}
 }
 

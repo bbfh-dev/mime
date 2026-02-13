@@ -59,6 +59,7 @@ func SubstituteString(in string, env Env) (string, error) {
 				builder.WriteString(values[index])
 				continue
 			}
+
 			value, ok := env.Variables[key]
 			if !ok {
 				return "", fmt.Errorf("unknown variable %q", key)
@@ -95,7 +96,7 @@ func SubstituteSmartString(file *drive.JsonFile, env Env, path string, value Var
 	if ok {
 		var err error
 		num := 0
-		if len(parts) > 1 {
+		if len(parts) == 2 {
 			num, err = strconv.Atoi(parts[1])
 			if err != nil {
 				return err
@@ -108,9 +109,12 @@ func SubstituteSmartString(file *drive.JsonFile, env Env, path string, value Var
 		return nil
 	}
 
-	value, ok = env.Variables[variables[0]]
+	value, ok = env.Variables[parts[0]]
 	if !ok {
 		return fmt.Errorf("undefined variable %q", variables[0])
+	}
+	if len(parts) == 2 {
+		value = Query(value, parts[1])
 	}
 	file.Set(path, value.Value())
 

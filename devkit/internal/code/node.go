@@ -5,7 +5,7 @@ import (
 	"io"
 	"strings"
 
-	liberrors "codeberg.org/bbfh/lib-errors"
+	liberrors "github.com/bbfh-dev/lib-errors"
 )
 
 type Node struct {

@@ -1,7 +1,7 @@
 package pipeline
 
 import (
-	liberrors "codeberg.org/bbfh/lib-errors"
+	liberrors "github.com/bbfh-dev/lib-errors"
 	"codeberg.org/bbfh/vintage/devkit/internal/drive"
 	"golang.org/x/sync/errgroup"
 )

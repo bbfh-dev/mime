@@ -3,7 +3,7 @@ package cli
 import (
 	"os"
 
-	liberrors "codeberg.org/bbfh/lib-errors"
+	liberrors "github.com/bbfh-dev/lib-errors"
 )
 
 var Main struct {

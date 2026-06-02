@@ -5,9 +5,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	liberrors "codeberg.org/bbfh/lib-errors"
-	liblog "codeberg.org/bbfh/lib-log"
-	libparsex "codeberg.org/bbfh/lib-parsex/v3"
+	liberrors "github.com/bbfh-dev/lib-errors"
+	liblog "github.com/bbfh-dev/lib-log"
+	libparsex "github.com/bbfh-dev/lib-parsex/v3"
 	"codeberg.org/bbfh/vintage/devkit/minecraft"
 )
 

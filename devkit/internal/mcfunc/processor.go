@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	liberrors "codeberg.org/bbfh/lib-errors"
+	liberrors "github.com/bbfh-dev/lib-errors"
 	"codeberg.org/bbfh/vintage/devkit/internal"
 	"codeberg.org/bbfh/vintage/devkit/internal/code"
 	"codeberg.org/bbfh/vintage/devkit/internal/drive"

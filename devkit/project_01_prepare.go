@@ -5,8 +5,8 @@ import (
 	"os"
 	"path/filepath"
 
-	liberrors "codeberg.org/bbfh/lib-errors"
-	liblog "codeberg.org/bbfh/lib-log"
+	liberrors "github.com/bbfh-dev/lib-errors"
+	liblog "github.com/bbfh-dev/lib-log"
 	"codeberg.org/bbfh/vintage/cli"
 	"codeberg.org/bbfh/vintage/devkit/internal/drive"
 	"codeberg.org/bbfh/vintage/devkit/internal/pipeline"

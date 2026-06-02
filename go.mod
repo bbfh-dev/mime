@@ -3,9 +3,9 @@ module codeberg.org/bbfh/vintage
 go 1.26
 
 require (
-	codeberg.org/bbfh/lib-errors v1.1.2
-	codeberg.org/bbfh/lib-log v0.1.2-beta.2
-	codeberg.org/bbfh/lib-parsex/v3 v3.0.3-beta.1
+	github.com/bbfh-dev/lib-errors v1.1.2
+	github.com/bbfh-dev/lib-log v0.1.2-beta.2
+	github.com/bbfh-dev/lib-parsex/v3 v3.0.3-beta.1
 	github.com/klauspost/compress v1.18.4
 	github.com/otiai10/copy v1.14.1
 	github.com/schollz/progressbar/v3 v3.19.0
@@ -17,7 +17,7 @@ require (
 )
 
 require (
-	codeberg.org/bbfh/lib-ansi-escapes v0.3.7 // indirect
+	github.com/bbfh-dev/lib-ansi-escapes v0.3.7 // indirect
 	github.com/google/go-cmp v0.7.0 // indirect
 	github.com/iancoleman/strcase v0.3.0 // indirect
 	github.com/mitchellh/colorstring v0.0.0-20190213212951-d06e56a500db // indirect

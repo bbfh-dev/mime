@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	liberrors "codeberg.org/bbfh/lib-errors"
+	liberrors "github.com/bbfh-dev/lib-errors"
 	"codeberg.org/bbfh/vintage/devkit/internal/templates"
 )
 

@@ -3,8 +3,8 @@ package main
 import (
 	"os"
 
-	liberrors "codeberg.org/bbfh/lib-errors"
-	libparsex "codeberg.org/bbfh/lib-parsex/v3"
+	liberrors "github.com/bbfh-dev/lib-errors"
+	libparsex "github.com/bbfh-dev/lib-parsex/v3"
 	"codeberg.org/bbfh/vintage/cli"
 	"codeberg.org/bbfh/vintage/devkit"
 )

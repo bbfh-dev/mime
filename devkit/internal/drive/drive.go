@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"time"
 
-	liblog "codeberg.org/bbfh/lib-log"
+	liblog "github.com/bbfh-dev/lib-log"
 )
 
 func GetMostRecentIn(dirs ...string) time.Time {

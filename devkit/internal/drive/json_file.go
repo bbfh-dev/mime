@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"slices"
 
-	liblog "codeberg.org/bbfh/lib-log"
+	liblog "github.com/bbfh-dev/lib-log"
 	"github.com/tidwall/gjson"
 	"github.com/tidwall/pretty"
 	"github.com/tidwall/sjson"

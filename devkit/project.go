@@ -1,7 +1,7 @@
 package devkit
 
 import (
-	liblog "codeberg.org/bbfh/lib-log"
+	liblog "github.com/bbfh-dev/lib-log"
 	"codeberg.org/bbfh/vintage/cli"
 	"codeberg.org/bbfh/vintage/devkit/internal/autolibs"
 	"codeberg.org/bbfh/vintage/devkit/internal/mcfunc"

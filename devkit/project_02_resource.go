@@ -4,7 +4,7 @@ import (
 	"os"
 	"path/filepath"
 
-	liblog "codeberg.org/bbfh/lib-log"
+	liblog "github.com/bbfh-dev/lib-log"
 	"codeberg.org/bbfh/vintage/devkit/internal/pipeline"
 	"codeberg.org/bbfh/vintage/devkit/minecraft"
 )

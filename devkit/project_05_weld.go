@@ -10,10 +10,10 @@ import (
 	"strings"
 	"time"
 
-	liberrors "github.com/bbfh-dev/lib-errors"
-	liblog "github.com/bbfh-dev/lib-log"
-	"github.com/bbfh-dev/vintage/devkit/internal/drive"
-	"github.com/bbfh-dev/vintage/devkit/internal/pipeline"
+	liberrors "codeberg.org/bbfh/lib-errors"
+	liblog "codeberg.org/bbfh/lib-log"
+	"codeberg.org/bbfh/vintage/devkit/internal/drive"
+	"codeberg.org/bbfh/vintage/devkit/internal/pipeline"
 	cp "github.com/otiai10/copy"
 	"golang.org/x/sync/errgroup"
 )

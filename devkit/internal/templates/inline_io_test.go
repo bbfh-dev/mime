@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/bbfh-dev/vintage/devkit/internal/templates"
+	"codeberg.org/bbfh/vintage/devkit/internal/templates"
 	"gotest.tools/assert"
 )
 

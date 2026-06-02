@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	liberrors "github.com/bbfh-dev/lib-errors"
-	"github.com/bbfh-dev/vintage/devkit/internal/templates"
+	liberrors "codeberg.org/bbfh/lib-errors"
+	"codeberg.org/bbfh/vintage/devkit/internal/templates"
 )
 
 func (proc *Processor) errEmptyTemplateCall(clean_line string) error {

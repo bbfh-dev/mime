@@ -5,9 +5,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	liblog "github.com/bbfh-dev/lib-log"
-	"github.com/bbfh-dev/vintage/cli"
-	"github.com/bbfh-dev/vintage/devkit"
+	liblog "codeberg.org/bbfh/lib-log"
+	"codeberg.org/bbfh/vintage/cli"
+	"codeberg.org/bbfh/vintage/devkit"
 	"gotest.tools/assert"
 )
 

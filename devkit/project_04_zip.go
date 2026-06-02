@@ -7,8 +7,8 @@ import (
 
 	"github.com/klauspost/compress/zip"
 
-	liberrors "github.com/bbfh-dev/lib-errors"
-	liblog "github.com/bbfh-dev/lib-log"
+	liberrors "codeberg.org/bbfh/lib-errors"
+	liblog "codeberg.org/bbfh/lib-log"
 )
 
 func (project *Project) ZipPacks() error {

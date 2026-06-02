@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/bbfh-dev/vintage/cli"
-	"github.com/bbfh-dev/vintage/devkit/internal/drive"
+	"codeberg.org/bbfh/vintage/cli"
+	"codeberg.org/bbfh/vintage/devkit/internal/drive"
 	"github.com/tidwall/gjson"
 )
 

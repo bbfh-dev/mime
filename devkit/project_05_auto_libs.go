@@ -6,12 +6,12 @@ import (
 	"regexp"
 	"strings"
 
-	liberrors "github.com/bbfh-dev/lib-errors"
-	liblog "github.com/bbfh-dev/lib-log"
-	"github.com/bbfh-dev/vintage/devkit/internal/autolibs"
-	"github.com/bbfh-dev/vintage/devkit/internal/drive"
-	"github.com/bbfh-dev/vintage/devkit/internal/mcfunc"
-	"github.com/bbfh-dev/vintage/devkit/internal/pipeline"
+	liberrors "codeberg.org/bbfh/lib-errors"
+	liblog "codeberg.org/bbfh/lib-log"
+	"codeberg.org/bbfh/vintage/devkit/internal/autolibs"
+	"codeberg.org/bbfh/vintage/devkit/internal/drive"
+	"codeberg.org/bbfh/vintage/devkit/internal/mcfunc"
+	"codeberg.org/bbfh/vintage/devkit/internal/pipeline"
 	"golang.org/x/sync/errgroup"
 )
 

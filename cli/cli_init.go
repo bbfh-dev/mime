@@ -5,10 +5,10 @@ import (
 	"path/filepath"
 	"strings"
 
-	liberrors "github.com/bbfh-dev/lib-errors"
-	liblog "github.com/bbfh-dev/lib-log"
-	libparsex "github.com/bbfh-dev/lib-parsex/v3"
-	"github.com/bbfh-dev/vintage/devkit/minecraft"
+	liberrors "codeberg.org/bbfh/lib-errors"
+	liblog "codeberg.org/bbfh/lib-log"
+	libparsex "codeberg.org/bbfh/lib-parsex/v3"
+	"codeberg.org/bbfh/vintage/devkit/minecraft"
 )
 
 var Init struct {

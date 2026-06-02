@@ -1,13 +1,13 @@
 package devkit
 
 import (
-	liblog "github.com/bbfh-dev/lib-log"
-	"github.com/bbfh-dev/vintage/cli"
-	"github.com/bbfh-dev/vintage/devkit/internal/autolibs"
-	"github.com/bbfh-dev/vintage/devkit/internal/mcfunc"
-	"github.com/bbfh-dev/vintage/devkit/internal/pipeline"
-	"github.com/bbfh-dev/vintage/devkit/internal/templates"
-	"github.com/bbfh-dev/vintage/devkit/minecraft"
+	liblog "codeberg.org/bbfh/lib-log"
+	"codeberg.org/bbfh/vintage/cli"
+	"codeberg.org/bbfh/vintage/devkit/internal/autolibs"
+	"codeberg.org/bbfh/vintage/devkit/internal/mcfunc"
+	"codeberg.org/bbfh/vintage/devkit/internal/pipeline"
+	"codeberg.org/bbfh/vintage/devkit/internal/templates"
+	"codeberg.org/bbfh/vintage/devkit/minecraft"
 )
 
 type Project struct {

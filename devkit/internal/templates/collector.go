@@ -6,8 +6,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	liberrors "github.com/bbfh-dev/lib-errors"
-	"github.com/bbfh-dev/vintage/devkit/internal/drive"
+	liberrors "codeberg.org/bbfh/lib-errors"
+	"codeberg.org/bbfh/vintage/devkit/internal/drive"
 	"github.com/tidwall/gjson"
 )
 

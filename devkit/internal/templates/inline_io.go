@@ -6,7 +6,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/bbfh-dev/vintage/devkit/internal/code"
+	"codeberg.org/bbfh/vintage/devkit/internal/code"
 )
 
 type Writer interface {

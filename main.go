@@ -3,10 +3,10 @@ package main
 import (
 	"os"
 
-	liberrors "github.com/bbfh-dev/lib-errors"
-	libparsex "github.com/bbfh-dev/lib-parsex/v3"
-	"github.com/bbfh-dev/vintage/cli"
-	"github.com/bbfh-dev/vintage/devkit"
+	liberrors "codeberg.org/bbfh/lib-errors"
+	libparsex "codeberg.org/bbfh/lib-parsex/v3"
+	"codeberg.org/bbfh/vintage/cli"
+	"codeberg.org/bbfh/vintage/devkit"
 )
 
 var MainProgram = libparsex.Program{

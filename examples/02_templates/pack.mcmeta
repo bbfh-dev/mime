@@ -10,8 +10,8 @@
 			},
 			{
 				"namespace": "bbln",
-				"data_pack": "https://github.com/bbfh-dev/bubblellaneous-pack/releases/download/v2.2.1/bubblellaneous_2-2-1_data_pack.zip",
-				"resource_pack": "https://github.com/bbfh-dev/bubblellaneous-pack/releases/download/v2.2.1/bubblellaneous_2-2-1_data_pack.zip"
+				"data_pack": "https://codeberg.org/bbfh/bubblellaneous-pack/releases/download/v2.2.1/bubblellaneous_2-2-1_data_pack.zip",
+				"resource_pack": "https://codeberg.org/bbfh/bubblellaneous-pack/releases/download/v2.2.1/bubblellaneous_2-2-1_data_pack.zip"
 			}
 		]
 	}

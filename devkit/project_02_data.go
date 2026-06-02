@@ -7,11 +7,11 @@ import (
 	"path/filepath"
 	"strings"
 
-	liberrors "github.com/bbfh-dev/lib-errors"
-	liblog "github.com/bbfh-dev/lib-log"
-	"github.com/bbfh-dev/vintage/devkit/internal/mcfunc"
-	"github.com/bbfh-dev/vintage/devkit/internal/pipeline"
-	"github.com/bbfh-dev/vintage/devkit/minecraft"
+	liberrors "codeberg.org/bbfh/lib-errors"
+	liblog "codeberg.org/bbfh/lib-log"
+	"codeberg.org/bbfh/vintage/devkit/internal/mcfunc"
+	"codeberg.org/bbfh/vintage/devkit/internal/pipeline"
+	"codeberg.org/bbfh/vintage/devkit/minecraft"
 	"golang.org/x/sync/errgroup"
 )
 

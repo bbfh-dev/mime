@@ -3,8 +3,8 @@ package code_test
 import (
 	"testing"
 
-	"github.com/bbfh-dev/vintage/devkit/internal/code"
-	"github.com/bbfh-dev/vintage/devkit/internal/drive"
+	"codeberg.org/bbfh/vintage/devkit/internal/code"
+	"codeberg.org/bbfh/vintage/devkit/internal/drive"
 	"github.com/tidwall/gjson"
 	"gotest.tools/assert"
 )

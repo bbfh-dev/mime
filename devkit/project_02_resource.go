@@ -4,9 +4,9 @@ import (
 	"os"
 	"path/filepath"
 
-	liblog "github.com/bbfh-dev/lib-log"
-	"github.com/bbfh-dev/vintage/devkit/internal/pipeline"
-	"github.com/bbfh-dev/vintage/devkit/minecraft"
+	liblog "codeberg.org/bbfh/lib-log"
+	"codeberg.org/bbfh/vintage/devkit/internal/pipeline"
+	"codeberg.org/bbfh/vintage/devkit/minecraft"
 )
 
 func (project *Project) GenerateResourcePack() error {

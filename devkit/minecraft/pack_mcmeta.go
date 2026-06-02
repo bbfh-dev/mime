@@ -6,7 +6,7 @@ import (
 	"math"
 	"strings"
 
-	"github.com/bbfh-dev/vintage/devkit/internal/drive"
+	"codeberg.org/bbfh/vintage/devkit/internal/drive"
 	"github.com/tidwall/gjson"
 )
 

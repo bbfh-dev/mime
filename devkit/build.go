@@ -4,11 +4,11 @@ import (
 	"os"
 	"time"
 
-	liberrors "github.com/bbfh-dev/lib-errors"
-	liblog "github.com/bbfh-dev/lib-log"
-	"github.com/bbfh-dev/vintage/cli"
-	"github.com/bbfh-dev/vintage/devkit/internal/drive"
-	"github.com/bbfh-dev/vintage/devkit/minecraft"
+	liberrors "codeberg.org/bbfh/lib-errors"
+	liblog "codeberg.org/bbfh/lib-log"
+	"codeberg.org/bbfh/vintage/cli"
+	"codeberg.org/bbfh/vintage/devkit/internal/drive"
+	"codeberg.org/bbfh/vintage/devkit/minecraft"
 )
 
 func Build(raw_args []string) error {

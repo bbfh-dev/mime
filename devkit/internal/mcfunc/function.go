@@ -3,9 +3,9 @@ package mcfunc
 import (
 	"bufio"
 
-	liberrors "github.com/bbfh-dev/lib-errors"
-	"github.com/bbfh-dev/vintage/devkit/internal/drive"
-	"github.com/bbfh-dev/vintage/devkit/internal/templates"
+	liberrors "codeberg.org/bbfh/lib-errors"
+	"codeberg.org/bbfh/vintage/devkit/internal/drive"
+	"codeberg.org/bbfh/vintage/devkit/internal/templates"
 )
 
 var FunctionPool = drive.NewPool[Function](drive.DEFAULT_POOL_SIZE, drive.DEFAULT_POOL_SIZE)

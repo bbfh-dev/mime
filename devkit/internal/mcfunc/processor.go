@@ -5,11 +5,11 @@ import (
 	"path/filepath"
 	"strings"
 
-	liberrors "github.com/bbfh-dev/lib-errors"
-	"github.com/bbfh-dev/vintage/devkit/internal"
-	"github.com/bbfh-dev/vintage/devkit/internal/code"
-	"github.com/bbfh-dev/vintage/devkit/internal/drive"
-	"github.com/bbfh-dev/vintage/devkit/internal/templates"
+	liberrors "codeberg.org/bbfh/lib-errors"
+	"codeberg.org/bbfh/vintage/devkit/internal"
+	"codeberg.org/bbfh/vintage/devkit/internal/code"
+	"codeberg.org/bbfh/vintage/devkit/internal/drive"
+	"codeberg.org/bbfh/vintage/devkit/internal/templates"
 )
 
 var ProcessorPool = drive.NewPool[Processor](drive.DEFAULT_POOL_SIZE, drive.DEFAULT_POOL_SIZE)

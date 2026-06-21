@@ -45,6 +45,13 @@ func UsesPluralFolderNames(version string) bool {
 type PackFormats map[string]PackVersion
 
 var ResourcePackFormats = PackFormats{
+	"26.2":                 {Digits: [2]int{88, 0}, Flag: USES_MIN_MAX_FORMAT},
+	"26.2-rc.2":            {Digits: [2]int{88, 0}, Flag: USES_MIN_MAX_FORMAT},
+	"26.2-rc.1":            {Digits: [2]int{88, 0}, Flag: USES_MIN_MAX_FORMAT},
+	"26.2-pre.6":           {Digits: [2]int{88, 0}, Flag: USES_MIN_MAX_FORMAT},
+	"26.2-pre.5":           {Digits: [2]int{88, 0}, Flag: USES_MIN_MAX_FORMAT},
+	"26.2-pre.4":           {Digits: [2]int{88, 0}, Flag: USES_MIN_MAX_FORMAT},
+	"26.2-pre.3":           {Digits: [2]int{88, 0}, Flag: USES_MIN_MAX_FORMAT},
 	"26.2-pre.2":           {Digits: [2]int{88, 0}, Flag: USES_MIN_MAX_FORMAT},
 	"26.2-pre.1":           {Digits: [2]int{88, 0}, Flag: USES_MIN_MAX_FORMAT},
 	"26.2-snapshot.8":      {Digits: [2]int{87, 0}, Flag: USES_MIN_MAX_FORMAT},
@@ -551,6 +558,13 @@ var ResourcePackFormats = PackFormats{
 }
 
 var DataPackFormats = PackFormats{
+	"26.2":                 {Digits: [2]int{107, 1}, Flag: USES_MIN_MAX_FORMAT},
+	"26.2-rc.2":            {Digits: [2]int{107, 1}, Flag: USES_MIN_MAX_FORMAT},
+	"26.2-rc.1":            {Digits: [2]int{107, 1}, Flag: USES_MIN_MAX_FORMAT},
+	"26.2-pre.6":           {Digits: [2]int{107, 1}, Flag: USES_MIN_MAX_FORMAT},
+	"26.2-pre.5":           {Digits: [2]int{107, 1}, Flag: USES_MIN_MAX_FORMAT},
+	"26.2-pre.4":           {Digits: [2]int{107, 1}, Flag: USES_MIN_MAX_FORMAT},
+	"26.2-pre.3":           {Digits: [2]int{107, 0}, Flag: USES_MIN_MAX_FORMAT},
 	"26.2-pre.2":           {Digits: [2]int{107, 0}, Flag: USES_MIN_MAX_FORMAT},
 	"26.2-pre.1":           {Digits: [2]int{106, 1}, Flag: USES_MIN_MAX_FORMAT},
 	"26.2-snapshot.8":      {Digits: [2]int{106, 0}, Flag: USES_MIN_MAX_FORMAT},

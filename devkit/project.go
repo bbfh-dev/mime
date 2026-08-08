@@ -69,7 +69,6 @@ func (project *Project) Build() error {
 		// project.CollectFromTemplates,
 		project.LoadAutoLibs,
 		project.ManageAutoLibs,
-		project.CopyOverlays,
 		pipeline.If[pipeline.Task](cli.Build.Options.Zip).
 			Then(project.ZipPacks),
 		pipeline.If[pipeline.Task](cli.Build.Options.Zip).

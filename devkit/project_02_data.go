@@ -36,7 +36,6 @@ func (project *Project) GenerateDataPack() error {
 		pipeline.Async(
 			project.copyPackDirs(FOLDER_DATA, path, &funcFoldersToParse),
 		),
-		project.ApplyPatches("data", "data_pack"),
 		pipeline.Async(
 			project.parseMcFunctions(&funcFoldersToParse),
 		),

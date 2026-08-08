@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
+	"codeberg.org/bbfh/vintage/cli"
 	"github.com/klauspost/compress/zip"
 
 	liberrors "github.com/bbfh-dev/lib-errors"
@@ -60,13 +61,18 @@ func (project *Project) zip(folder string) error {
 
 func (project *Project) getZipPath(label string) string {
 	// TODO: Would be nice to not add label if pack is only one of a kind (only RP or only DP)
+	var suffix string
+	if patches := cli.Build.Options.Patches; patches != "" {
+		suffix = "+" + patches
+	}
 	return filepath.Join(
 		project.BuildDir,
 		fmt.Sprintf(
-			"%s_%s_v%s.zip",
+			"%s_%s_v%s%s.zip",
 			project.Meta.Name(),
 			label,
 			project.Meta.VersionFormatted(),
+			suffix,
 		),
 	)
 }

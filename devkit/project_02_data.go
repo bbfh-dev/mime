@@ -7,11 +7,11 @@ import (
 	"path/filepath"
 	"strings"
 
-	liberrors "github.com/bbfh-dev/lib-errors"
-	liblog "github.com/bbfh-dev/lib-log"
 	"codeberg.org/bbfh/vintage/devkit/internal/mcfunc"
 	"codeberg.org/bbfh/vintage/devkit/internal/pipeline"
 	"codeberg.org/bbfh/vintage/devkit/minecraft"
+	liberrors "github.com/bbfh-dev/lib-errors"
+	liblog "github.com/bbfh-dev/lib-log"
 	"golang.org/x/sync/errgroup"
 )
 
@@ -36,6 +36,7 @@ func (project *Project) GenerateDataPack() error {
 		pipeline.Async(
 			project.copyPackDirs(FOLDER_DATA, path, &funcFoldersToParse),
 		),
+		project.ApplyPatches("data", "data_pack"),
 		pipeline.Async(
 			project.parseMcFunctions(&funcFoldersToParse),
 		),

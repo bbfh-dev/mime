@@ -1,0 +1,10 @@
+--- ${VINTAGE_TARGET} 2026-08-08 12:11:53.464848167 +0300
++++ example.json 2026-08-08 12:13:29.983906785 +0300
+@@ -1,6 +1,6 @@
+ {
+        "parent": "item/generated",
+        "textures": {
+-               "layer0": "minecraft:item/barrier"
++               "layer0": "minecraft:item/stone"
+        }
+ }

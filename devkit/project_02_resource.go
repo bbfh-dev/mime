@@ -4,9 +4,9 @@ import (
 	"os"
 	"path/filepath"
 
-	liblog "github.com/bbfh-dev/lib-log"
 	"codeberg.org/bbfh/vintage/devkit/internal/pipeline"
 	"codeberg.org/bbfh/vintage/devkit/minecraft"
+	liblog "github.com/bbfh-dev/lib-log"
 )
 
 func (project *Project) GenerateResourcePack() error {
@@ -28,6 +28,7 @@ func (project *Project) GenerateResourcePack() error {
 		pipeline.Async(
 			project.copyPackDirs(FOLDER_ASSETS, path, nil),
 		),
+		project.ApplyPatches("assets", "resource_pack"),
 		project.copyExtraFiles(path),
 		project.createPackMcmeta("resource_pack", "resources", minecraft.ResourcePackFormats),
 	)

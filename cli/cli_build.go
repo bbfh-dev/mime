@@ -8,6 +8,7 @@ var Build struct {
 		Force            bool   `alt:"f" desc:"Force build even if the project was cached"`
 		DeleteUnusedLibs bool   `desc:"Delete unused automatic libraries rather than appending .disabled to file names"`
 		ForceStringify   bool   `desc:"Forces variables in templates to be inserted even if they are of an unsupported type"`
+		Patches          string `desc:"'+'-separated list of patches to be applied from the 'patches/' directory"`
 	}
 	Args struct {
 		WorkDir *string

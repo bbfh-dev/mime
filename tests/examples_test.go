@@ -5,9 +5,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	liblog "github.com/bbfh-dev/lib-log"
 	"codeberg.org/bbfh/vintage/cli"
 	"codeberg.org/bbfh/vintage/devkit"
+	liblog "github.com/bbfh-dev/lib-log"
 	"gotest.tools/assert"
 )
 
@@ -38,6 +38,9 @@ func TestExamples(t *testing.T) {
 		t.Run(entry.Name(), func(t *testing.T) {
 			liblog.Output = t.Output()
 			cli.Build.Args.WorkDir = &path
+			if entry.Name() == "05_patches" {
+				cli.Build.Options.Patches = "example1+example2"
+			}
 			err := devkit.Build([]string{path})
 			assert.NilError(t, err)
 		})

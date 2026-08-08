@@ -60,6 +60,7 @@ func (project *Project) applyPatch(path, folder, target string) error {
 			}
 
 			dest = strings.TrimSuffix(dest, filepath.Ext(dest))
+			dest, _ = filepath.Abs(dest)
 			contents := strings.ReplaceAll(string(body), "${VINTAGE_TARGET}", dest)
 
 			cmd := exec.Command("patch", "-l", "-p0", "-d", "/", "--no-backup-if-mismatch")

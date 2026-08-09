@@ -169,7 +169,7 @@ func (mcmeta *PackMcmeta) VersionFormatted() string {
 
 func (mcmeta *PackMcmeta) SaveOverlays(ft PackFormats, folders []string) {
 	for i, folder := range folders {
-		id := fmt.Sprintf("pack.overlays.entries.%d", i)
+		id := fmt.Sprintf("overlays.entries.%d", i)
 		mcmeta.File.Set(id+".directory", folder)
 
 		min_version, max_version, _ := OverlayVersions(folder)

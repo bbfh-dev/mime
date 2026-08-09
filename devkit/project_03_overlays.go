@@ -55,7 +55,7 @@ func (project *Project) copyOverlays(source []string, target, folder string) pip
 			errs.Go(func() error {
 				return cp.Copy(
 					path,
-					filepath.Join(project.BuildDir, target, "overlays", overlay, folder),
+					filepath.Join(project.BuildDir, target, overlay, folder),
 				)
 			})
 		}

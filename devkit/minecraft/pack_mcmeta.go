@@ -166,3 +166,14 @@ func (mcmeta *PackMcmeta) VersionFormatted() string {
 	}
 	return strings.ReplaceAll(version.String(), ".", "-")
 }
+
+func (mcmeta *PackMcmeta) SaveOverlays(ft PackFormats, folders []string) {
+	for i, folder := range folders {
+		id := fmt.Sprintf("pack.overlays.entries.%d", i)
+		mcmeta.File.Set(id+".directory", folder)
+
+		min_version, max_version, _ := OverlayVersions(folder)
+		mcmeta.File.Set(id+".min_format", ft[min_version].Digits)
+		mcmeta.File.Set(id+".max_format", ft[max_version].Digits)
+	}
+}

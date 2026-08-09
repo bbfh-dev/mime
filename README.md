@@ -20,3 +20,5 @@ There are many [other pre-processors](https://gist.github.com/Ellivers/db296c438
 - [x] Generator templates
 - [ ] Collector templates
 - [ ] Better examples
+- [ ] Patch should apply on the source code, so that function parsing and templates run on it.
+- [ ] Overlays should be processed by the main pipeline, so that mcfunction and templates compile.

@@ -22,6 +22,8 @@ type Project struct {
 	collectorTemplates map[string]*templates.Collector
 	inlineTemplates    map[string]*templates.Inline
 	customTemplates    map[string]*templates.Custom
+	dataOverlays       []string
+	assetsOverlays     []string
 
 	libraries []*autolibs.Library
 }
@@ -39,6 +41,8 @@ func New(mcmeta *minecraft.PackMcmeta) *Project {
 		collectorTemplates: map[string]*templates.Collector{},
 		inlineTemplates:    map[string]*templates.Inline{},
 		customTemplates:    map[string]*templates.Custom{},
+		dataOverlays:       []string{},
+		assetsOverlays:     []string{},
 
 		libraries: []*autolibs.Library{},
 	}
@@ -57,6 +61,7 @@ func (project *Project) Build() error {
 		project.DetectPackIcon,
 		project.CheckIfCached(&project.isDataCached, FOLDER_DATA),
 		project.CheckIfCached(&project.isAssetsCached, FOLDER_ASSETS),
+		project.LoadOverlays,
 		project.LoadTemplates,
 		project.GenerateDataPack,
 		project.GenerateResourcePack,

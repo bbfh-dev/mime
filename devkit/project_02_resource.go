@@ -33,6 +33,14 @@ func (project *Project) GenerateResourcePack() error {
 				Then(project.patch("resource_pack", "assets")),
 		),
 		project.copyExtraFiles(path),
-		project.createPackMcmeta("resource_pack", "resources", minecraft.ResourcePackFormats),
+		pipeline.Async(
+			project.copyOverlays(project.assetsOverlays, "resource_pack", "assets"),
+		),
+		project.createPackMcmeta(
+			"resource_pack",
+			"resources",
+			minecraft.ResourcePackFormats,
+			project.assetsOverlays,
+		),
 	)
 }

@@ -5,12 +5,12 @@ import (
 	"path/filepath"
 	"strings"
 
-	liberrors "github.com/bbfh-dev/lib-errors"
-	liblog "github.com/bbfh-dev/lib-log"
 	"codeberg.org/bbfh/vintage/cli"
 	"codeberg.org/bbfh/vintage/devkit/internal/drive"
 	"codeberg.org/bbfh/vintage/devkit/internal/pipeline"
 	"codeberg.org/bbfh/vintage/devkit/minecraft"
+	liberrors "github.com/bbfh-dev/lib-errors"
+	liblog "github.com/bbfh-dev/lib-log"
 	cp "github.com/otiai10/copy"
 	"golang.org/x/sync/errgroup"
 )
@@ -101,13 +101,21 @@ func (project *Project) copyExtraFiles(dir string) pipeline.Task {
 	}
 }
 
-func (project *Project) createPackMcmeta(dir, name string, ft minecraft.PackFormats) pipeline.Task {
+func (project *Project) createPackMcmeta(
+	dir, name string,
+	ft minecraft.PackFormats,
+	overlays []string,
+) pipeline.Task {
 	return func() error {
 		liblog.Info(1, "Exporting pack.mcmeta for %s", dir)
 		mcmeta := project.Meta.Clone()
 		mcmeta.FillVersion(name, ft)
 		if err := mcmeta.SaveVersion(); err != nil {
 			liblog.Warn(1, "%s", err.Error())
+		}
+
+		if len(overlays) != 0 {
+			mcmeta.SaveOverlays(ft, overlays)
 		}
 
 		path := filepath.Join(project.BuildDir, dir, "pack.mcmeta")

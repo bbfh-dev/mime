@@ -28,6 +28,10 @@ func (project *Project) GenerateResourcePack() error {
 		pipeline.Async(
 			project.copyPackDirs(FOLDER_ASSETS, path, nil),
 		),
+		pipeline.Async(
+			pipeline.If[pipeline.AsyncTask](project.hasPatches()).
+				Then(project.patch("resource_pack", "assets")),
+		),
 		project.copyExtraFiles(path),
 		project.createPackMcmeta("resource_pack", "resources", minecraft.ResourcePackFormats),
 	)

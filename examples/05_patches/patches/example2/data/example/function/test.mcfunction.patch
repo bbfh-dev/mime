@@ -1,0 +1,8 @@
+@@ -1,7 +1,4 @@
+ function example:test/_greet
++
++say Inserted here!
++
+ execute as @e \
+ 	at @s \
+ 	run function bs.math:some_function/here

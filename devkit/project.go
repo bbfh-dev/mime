@@ -65,6 +65,10 @@ func (project *Project) Build() error {
 			project.writeMcfunctions,
 			project.writeGeneratedJsonFiles,
 		),
+		pipeline.Async(
+			pipeline.If[pipeline.AsyncTask](project.hasPatches()).
+				Then(project.patch("data_pack", "data")),
+		),
 		project.RunCustomTemplates,
 		// project.CollectFromTemplates,
 		project.LoadAutoLibs,

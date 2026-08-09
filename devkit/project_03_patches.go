@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"codeberg.org/bbfh/vintage/cli"
 	"codeberg.org/bbfh/vintage/devkit/internal/patcher"
 	"codeberg.org/bbfh/vintage/devkit/internal/pipeline"
 	liberrors "github.com/bbfh-dev/lib-errors"
@@ -16,23 +17,21 @@ import (
 
 func (project *Project) patch(target, folder string) pipeline.AsyncTask {
 	return func(errs *errgroup.Group) error {
-		entries, err := os.ReadDir("patches")
-		if err != nil {
-			return liberrors.NewIO(err, "patches")
-		}
-		liblog.Info(1, "Found %d patch candidates", len(entries))
+		names := strings.Split(cli.Build.Options.Patches, "+")
+		liblog.Info(1, "Found %d patch candidates", len(names))
 
-		for _, entry := range entries {
-			if !entry.IsDir() {
+		for _, name := range names {
+			if _, err := os.Stat(filepath.Join("patches", name)); os.IsNotExist(err) {
+				liblog.Warn(1, "Unknown overlay %q. Skipping...", name)
 				continue
 			}
 
-			root := filepath.Join("patches", entry.Name(), folder)
+			root := filepath.Join("patches", name, folder)
 			if _, err := os.Stat(root); err != nil {
 				continue
 			}
 
-			liblog.Debug(2, "Applying %s patch", entry.Name())
+			liblog.Debug(2, "Applying %s patch", name)
 			err := filepath.WalkDir(root, func(path string, d fs.DirEntry, err error) error {
 				if err != nil || d.IsDir() {
 					return err
